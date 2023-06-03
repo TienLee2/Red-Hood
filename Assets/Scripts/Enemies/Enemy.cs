@@ -106,6 +106,8 @@ public class Enemy : MonoBehaviour {
 			collision.gameObject.GetComponent<CharacterController2D>().ApplyDamage(2f, transform.position);
 		}
 	}
+
+
 	//Neu vua bi dinh don thi doi 1 khoang thoi gian moi nhan dame tiep
 	IEnumerator HitTime()
 	{
