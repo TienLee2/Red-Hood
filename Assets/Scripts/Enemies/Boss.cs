@@ -154,9 +154,9 @@ public class Boss : MonoBehaviour
                             Flip();
                         }
                     }
-                    if (randomDecision <= 8f)
+                    if (randomDecision <= 6f)
                         Run();
-                    else if (randomDecision > 8f)
+                    else if (randomDecision > 6f)
                         Idle();
                     else
                         Run();
