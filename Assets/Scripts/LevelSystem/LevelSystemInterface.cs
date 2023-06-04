@@ -1,28 +1,68 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class LevelSystemInterface : MonoBehaviour
 {
     [SerializeField] private LevelSystem levelSystem;
+    private PlayerSkills playerSkills;
+
+    public TextMeshProUGUI skillPointText;
 
     private void Awake()
     {
         levelSystem = new LevelSystem();
+        skillPointText.text = levelSystem.GetSkillPointNumber() + " Point";
+
+        /*playerSkills = new PlayerSkills();
+        playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;*/
+
+    }
+
+    /*private void PlayerSkills_OnSkillUnlocked(object sender, PlayerSkills.OnSkillUnlockedEventArgs e)
+    {
+        //Debug.Log("Yes skill Unlocked");
+    }*/
+
+    private void Update()
+    {
+        skillPointText.text = levelSystem.GetSkillPointNumber() + " Point";
     }
 
     public void SetLevelSystem(int levelPoint)
     {
         levelSystem.AddExperience(levelPoint);
         levelSystem.OnLevelChanged += LevelSystem_OnLevelChanged;
+    }
 
-        Debug.Log("Current level " + levelSystem.GetLevelNumber());
-        //Debug.Log("Current Experience " + levelSystem.GetExperienceNormalized());
+    public void SubtractSkillPoint(int point)
+    {
+        levelSystem.SubtractSkillPoint(point);
     }
 
     private void LevelSystem_OnLevelChanged(object sender, EventArgs e)
     {
-        Debug.Log("Level UP");
+        //If lEvel up 
+        //Debug.Log("Level UP");
     }
+
+    public int SkillPoint()
+    {
+        return levelSystem.GetSkillPointNumber();
+    }
+
+
+
+    /*
+    public void HealthUp()
+    {
+        playerSkills.UnlockedSkill(PlayerSkills.SkillType.HealthUp);
+    }
+
+    public void DashDamage()
+    {
+        playerSkills.UnlockedSkill(PlayerSkills.SkillType.DashDamage);
+    }*/
 }

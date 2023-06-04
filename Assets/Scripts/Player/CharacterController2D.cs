@@ -48,7 +48,6 @@ public class CharacterController2D : MonoBehaviour
     //bool check n?u nv có ?ang chu?n b? l??t t??ng hay không
     private bool canCheck = false;
 
-    //m?ng s?ng cua nhân v?t
     public float life = 10f; //Life of the player
     public bool invincible = false; //If player can die
     private bool canMove = true; //If player can move
@@ -279,6 +278,7 @@ public class CharacterController2D : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+
     }
 
     public void ApplyDamage(float damage, Vector3 position)
@@ -304,6 +304,7 @@ public class CharacterController2D : MonoBehaviour
 
     IEnumerator DashCooldown()
     {
+        
         animator.SetBool("IsDashing", true);
         isDashing = true;
         canDash = false;
