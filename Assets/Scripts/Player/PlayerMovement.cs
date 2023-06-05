@@ -12,37 +12,54 @@ public class PlayerMovement : MonoBehaviour {
 	float horizontalMove = 0f;
 	bool jump = false;
 	bool dash = false;
+    private CharacterController2D player;
+    //bool dashAxis = false;
 
-	//bool dashAxis = false;
-	
-	// Update is called once per frame
-	void Update () {
+    private void Start()
+    {
+        player = GetComponent<CharacterController2D>();
+    }
 
-		horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
-
-		animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
-
-		if (Input.GetKeyDown(KeyCode.Z))
+    void Update () {
+		if(player.life > 0)
 		{
-			jump = true;
-			animator.SetBool("isJump",true);
-		}
+            horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 
-		if (Input.GetKeyDown(KeyCode.C))
-		{
-			dash = true;
-		}
+            animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                jump = true;
+                animator.SetBool("Jumping", true);
+            }
+
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                dash = true;
+            }
+        }
+        else
+        {
+            animator.SetFloat("Speed", 0f);
+            animator.SetBool("Jumping", false);
+            animator.SetBool("isFall", false);
+            jump = false;
+            dash = false;
+        }
+		
 	}
 
 	public void OnFall()
 	{
-		animator.SetBool("isJump", true);
-	}
+		animator.SetBool("isFall", true);
+        animator.SetBool("Jumping", false);
+    }
 
 	public void OnLanding()
 	{
-		animator.SetBool("isJump", false);
-	}
+        animator.SetBool("Jumping", false);
+        animator.SetBool("isFall", false);
+    }
 
 	void FixedUpdate ()
 	{
