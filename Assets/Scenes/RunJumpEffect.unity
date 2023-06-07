@@ -11289,7 +11289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 783f8b7882d2d2a42a5b76de9179978f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dust: {fileID: 881036360}
+  dust: {fileID: 0}
   m_JumpForce: 850
   m_MovementSmoothing: 0.05
   m_AirControl: 1
@@ -11346,6 +11346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9955788a5eaffa49a9297f38eaa6202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Blood: {fileID: 0}
   dmgValue: 4
   throwableObject: {fileID: 5532974359214069763, guid: 340067e8e5a097546ad175f1d00a6ece, type: 3}
   attackCheck: {fileID: 4370582654368065}
