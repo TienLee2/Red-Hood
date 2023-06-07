@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -120,10 +120,10 @@ TextureImporter:
       name: Take Hit_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 150
-        height: 150
+        x: 58
+        y: 49
+        width: 33
+        height: 36
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,10 +141,10 @@ TextureImporter:
       name: Take Hit_1
       rect:
         serializedVersion: 2
-        x: 150
-        y: 0
-        width: 150
-        height: 150
+        x: 208
+        y: 49
+        width: 33
+        height: 36
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -162,10 +162,10 @@ TextureImporter:
       name: Take Hit_2
       rect:
         serializedVersion: 2
-        x: 300
-        y: 0
-        width: 150
-        height: 150
+        x: 354
+        y: 66
+        width: 7
+        height: 5
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -183,10 +183,10 @@ TextureImporter:
       name: Take Hit_3
       rect:
         serializedVersion: 2
-        x: 450
-        y: 0
-        width: 150
-        height: 150
+        x: 358
+        y: 49
+        width: 38
+        height: 37
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -196,6 +196,48 @@ TextureImporter:
       bones: []
       spriteID: 184684b2b0f9cb948b988b719f7d8370
       internalID: 2039477639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Take Hit_4
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 65
+        width: 5
+        height: 5
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21734185974fa624083c93856d1fb8f6
+      internalID: -1463279779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Take Hit_5
+      rect:
+        serializedVersion: 2
+        x: 508
+        y: 49
+        width: 35
+        height: 37
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de602f2fb96538c43a2b8b0022ace5f7
+      internalID: -937131241
       vertices: []
       indices: 
       edges: []
@@ -215,6 +257,8 @@ TextureImporter:
       Take Hit_1: 1638666086
       Take Hit_2: -1644602223
       Take Hit_3: 2039477639
+      Take Hit_4: -1463279779
+      Take Hit_5: -937131241
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

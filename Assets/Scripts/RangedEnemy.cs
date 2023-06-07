@@ -14,6 +14,8 @@ public class RangedEnemy : MonoBehaviour
 
     private bool facingRight = true;
 
+    [SerializeField] private float attackSpeed;
+
     public float speed = 5f;
     public GameObject throwableObject;
     public bool isInvincible = false;
@@ -118,7 +120,7 @@ public class RangedEnemy : MonoBehaviour
             throwableProj.GetComponent<ThrowableProjectile>().owner = gameObject;
             Vector2 direction = new Vector2(transform.localScale.x, 0f);
             throwableProj.GetComponent<ThrowableProjectile>().direction = direction;
-            StartCoroutine(NextDecision(0.5f));
+            StartCoroutine(NextDecision(attackSpeed));
         }
     }
 
