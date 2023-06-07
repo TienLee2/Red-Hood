@@ -28,7 +28,7 @@ public class CharacterController2D : MonoBehaviour
     //vòng tròn nh? d??i chân nv ?? detect coi có ch?m ??t không
     const float k_GroundedRadius = .2f;
     //Bool check nv ch?m ??t
-    private bool m_Grounded;
+    public bool m_Grounded;
     private Rigidbody2D m_Rigidbody2D;
     //Quy?t ??nh nv ?ang quay m?t v? ?âu
     private bool m_FacingRight = true;
@@ -89,68 +89,72 @@ public class CharacterController2D : MonoBehaviour
 
     private void FixedUpdate()
     {
-        bool wasGrounded = m_Grounded;
-        m_Grounded = false;
-
-        // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
-        // This can be done using layers instead but Sample Assets will not overwrite your project settings.
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
-        for (int i = 0; i < colliders.Length; i++)
+        if (life > 0)
         {
-            if (colliders[i].gameObject != gameObject)
-                m_Grounded = true;
-            if (!wasGrounded)
-            {
-                OnLandEvent.Invoke();
-                if (!m_IsWall && !isDashing)
-                    particleJumpDown.Play();
-                canDoubleJump = true;
-                if (m_Rigidbody2D.velocity.y < 0f)
-                    limitVelOnWallJump = false;
-            }
-        }
+            bool wasGrounded = m_Grounded;
+            m_Grounded = false;
 
-        m_IsWall = false;
-
-        if (!m_Grounded)
-        {
-            OnFallEvent.Invoke();
-            Collider2D[] collidersWall = Physics2D.OverlapCircleAll(m_WallCheck.position, k_GroundedRadius, m_WhatIsGround);
-            for (int i = 0; i < collidersWall.Length; i++)
+            // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
+            // This can be done using layers instead but Sample Assets will not overwrite your project settings.
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
+            for (int i = 0; i < colliders.Length; i++)
             {
-                if (collidersWall[i].gameObject != null)
+                if (colliders[i].gameObject != gameObject)
+                    m_Grounded = true;
+                if (!wasGrounded)
                 {
-                    isDashing = false;
-                    m_IsWall = true;
+                    OnLandEvent.Invoke();
+                    if (!m_IsWall && !isDashing)
+                        particleJumpDown.Play();
+                    canDoubleJump = true;
+                    if (m_Rigidbody2D.velocity.y < 0f)
+                        limitVelOnWallJump = false;
+                }
+            }
+
+            m_IsWall = false;
+
+            if (!m_Grounded)
+            {
+                OnFallEvent.Invoke();
+                Collider2D[] collidersWall = Physics2D.OverlapCircleAll(m_WallCheck.position, k_GroundedRadius, m_WhatIsGround);
+                for (int i = 0; i < collidersWall.Length; i++)
+                {
+                    if (collidersWall[i].gameObject != null)
+                    {
+                        isDashing = false;
+                        m_IsWall = true;
+                    }
+                }
+            }
+
+            if (limitVelOnWallJump)
+            {
+                if (m_Rigidbody2D.velocity.y < -0.5f)
+                    limitVelOnWallJump = false;
+                jumpWallDistX = (jumpWallStartX - transform.position.x) * transform.localScale.x;
+                if (jumpWallDistX < -0.5f && jumpWallDistX > -1f)
+                {
+                    canMove = true;
+                }
+                else if (jumpWallDistX < -1f && jumpWallDistX >= -2f)
+                {
+                    canMove = true;
+                    m_Rigidbody2D.velocity = new Vector2(10f * transform.localScale.x, m_Rigidbody2D.velocity.y);
+                }
+                else if (jumpWallDistX < -2f)
+                {
+                    limitVelOnWallJump = false;
+                    m_Rigidbody2D.velocity = new Vector2(0, m_Rigidbody2D.velocity.y);
+                }
+                else if (jumpWallDistX > 0)
+                {
+                    limitVelOnWallJump = false;
+                    m_Rigidbody2D.velocity = new Vector2(0, m_Rigidbody2D.velocity.y);
                 }
             }
         }
-
-        if (limitVelOnWallJump)
-        {
-            if (m_Rigidbody2D.velocity.y < -0.5f)
-                limitVelOnWallJump = false;
-            jumpWallDistX = (jumpWallStartX - transform.position.x) * transform.localScale.x;
-            if (jumpWallDistX < -0.5f && jumpWallDistX > -1f)
-            {
-                canMove = true;
-            }
-            else if (jumpWallDistX < -1f && jumpWallDistX >= -2f)
-            {
-                canMove = true;
-                m_Rigidbody2D.velocity = new Vector2(10f * transform.localScale.x, m_Rigidbody2D.velocity.y);
-            }
-            else if (jumpWallDistX < -2f)
-            {
-                limitVelOnWallJump = false;
-                m_Rigidbody2D.velocity = new Vector2(0, m_Rigidbody2D.velocity.y);
-            }
-            else if (jumpWallDistX > 0)
-            {
-                limitVelOnWallJump = false;
-                m_Rigidbody2D.velocity = new Vector2(0, m_Rigidbody2D.velocity.y);
-            }
-        }
+        
     }
 
 
@@ -304,8 +308,9 @@ public class CharacterController2D : MonoBehaviour
     {
         if (!invincible)
         {
-            animator.SetBool("Hit", true);
+            
             life -= damage;
+            animator.SetTrigger("Hurt");
             Vector2 damageDir = Vector3.Normalize(transform.position - position) * 40f;
             m_Rigidbody2D.velocity = Vector2.zero;
             m_Rigidbody2D.AddForce(damageDir * 10);
@@ -324,12 +329,12 @@ public class CharacterController2D : MonoBehaviour
     IEnumerator DashCooldown()
     {
         
-        animator.SetBool("IsDashing", true);
+        animator.SetTrigger("IsDashing");
         isDashing = true;
         canDash = false;
         yield return new WaitForSeconds(0.1f);
         isDashing = false;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(2f);
         canDash = true;
     }
 
@@ -371,13 +376,13 @@ public class CharacterController2D : MonoBehaviour
 
     IEnumerator WaitToDead()
     {
-        animator.SetBool("IsDead", true);
+        animator.SetBool("Dead", true);
         canMove = false;
         invincible = true;
         GetComponent<Attack>().enabled = false;
         yield return new WaitForSeconds(0.4f);
         m_Rigidbody2D.velocity = new Vector2(0, m_Rigidbody2D.velocity.y);
-        yield return new WaitForSeconds(1.1f);
+        yield return new WaitForSeconds(2f);
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
 }

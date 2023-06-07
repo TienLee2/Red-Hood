@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -67,7 +67,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -120,12 +120,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 18
+        y: 21
+        width: 26
+        height: 26
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -141,12 +141,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_1
       rect:
         serializedVersion: 2
-        x: 80
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 99
+        y: 21
+        width: 22
+        height: 23
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -162,12 +162,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_2
       rect:
         serializedVersion: 2
-        x: 160
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 179
+        y: 21
+        width: 43
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -183,12 +183,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_3
       rect:
         serializedVersion: 2
-        x: 240
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 257
+        y: 21
+        width: 44
+        height: 31
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -204,12 +204,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_4
       rect:
         serializedVersion: 2
-        x: 320
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 337
+        y: 21
+        width: 36
+        height: 31
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -225,12 +225,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_5
       rect:
         serializedVersion: 2
-        x: 400
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 416
+        y: 21
+        width: 25
+        height: 29
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -246,12 +246,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_6
       rect:
         serializedVersion: 2
-        x: 480
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 502
+        y: 21
+        width: 20
+        height: 30
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -267,12 +267,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_7
       rect:
         serializedVersion: 2
-        x: 560
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 582
+        y: 21
+        width: 20
+        height: 31
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -288,12 +288,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_8
       rect:
         serializedVersion: 2
-        x: 640
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 665
+        y: 21
+        width: 24
+        height: 33
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -309,12 +309,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_9
       rect:
         serializedVersion: 2
-        x: 720
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 740
+        y: 21
+        width: 44
+        height: 31
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -330,12 +330,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_10
       rect:
         serializedVersion: 2
-        x: 800
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 818
+        y: 21
+        width: 45
+        height: 27
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -351,12 +351,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_11
       rect:
         serializedVersion: 2
-        x: 880
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 897
+        y: 21
+        width: 28
+        height: 27
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -372,12 +372,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_12
       rect:
         serializedVersion: 2
-        x: 960
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 980
+        y: 21
+        width: 25
+        height: 29
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -393,12 +393,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_13
       rect:
         serializedVersion: 2
-        x: 1040
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1064
+        y: 21
+        width: 19
+        height: 29
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -414,12 +414,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_14
       rect:
         serializedVersion: 2
-        x: 1120
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1146
+        y: 21
+        width: 17
+        height: 30
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -435,12 +435,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_15
       rect:
         serializedVersion: 2
-        x: 1200
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1224
+        y: 21
+        width: 21
+        height: 29
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -456,12 +456,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_16
       rect:
         serializedVersion: 2
-        x: 1280
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1297
+        y: 21
+        width: 44
+        height: 33
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -477,12 +477,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_17
       rect:
         serializedVersion: 2
-        x: 1360
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1376
+        y: 21
+        width: 44
+        height: 30
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -498,12 +498,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_18
       rect:
         serializedVersion: 2
-        x: 1440
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1455
+        y: 21
+        width: 30
+        height: 22
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -519,12 +519,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_19
       rect:
         serializedVersion: 2
-        x: 1520
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1535
+        y: 21
+        width: 30
+        height: 21
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -540,12 +540,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_20
       rect:
         serializedVersion: 2
-        x: 1600
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1615
+        y: 21
+        width: 30
+        height: 21
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -561,12 +561,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_21
       rect:
         serializedVersion: 2
-        x: 1680
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1695
+        y: 21
+        width: 30
+        height: 21
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -582,12 +582,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_22
       rect:
         serializedVersion: 2
-        x: 1760
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1779
+        y: 21
+        width: 24
+        height: 21
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -603,12 +603,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_23
       rect:
         serializedVersion: 2
-        x: 1840
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1860
+        y: 21
+        width: 19
+        height: 24
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -624,12 +624,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_24
       rect:
         serializedVersion: 2
-        x: 1920
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1940
+        y: 21
+        width: 17
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -645,12 +645,12 @@ TextureImporter:
       name: itch light atk sheet-Sheet_25
       rect:
         serializedVersion: 2
-        x: 2000
-        y: 0
-        width: 80
-        height: 80
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 2020
+        y: 21
+        width: 16
+        height: 31
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
