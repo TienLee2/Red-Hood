@@ -6,6 +6,11 @@ using System;
 
 public class CharacterController2D : MonoBehaviour
 {
+
+    // Run and Jump Effect  
+    public ParticleSystem dust;
+
+
     //l?c nh?y
     [SerializeField] private float m_JumpForce = 400f;
     //smooth nhân v?t khi di chuy?n
@@ -153,11 +158,17 @@ public class CharacterController2D : MonoBehaviour
     public void Move(float move, bool jump, bool dash)
     {
         if (canMove)
-        {
+        {   
+            if (move != 0)
+            {
+                CreateDust();
+            }
+            
             if (dash && canDash && !isWallSliding)
             {
                 //m_Rigidbody2D.AddForce(new Vector2(transform.localScale.x * m_DashForce, 0f));
                 StartCoroutine(DashCooldown());
+                
             }
             // If crouching, check to see if the character can stand up
             if (isDashing)
@@ -168,7 +179,8 @@ public class CharacterController2D : MonoBehaviour
             else if (m_Grounded || m_AirControl)
             {
                 if (m_Rigidbody2D.velocity.y < -limitFallSpeed)
-                    m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, -limitFallSpeed);
+                    
+                m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, -limitFallSpeed);
                 // Move the character by finding the target velocity
                 Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
                 // And then smoothing it out and applying it to the character
@@ -182,7 +194,7 @@ public class CharacterController2D : MonoBehaviour
                 }
                 // Otherwise if the input is moving the player left and the player is facing right...
                 else if (move < 0 && m_FacingRight && !isWallSliding)
-                {
+                {                  
                     // ... flip the player.
                     Flip();
                 }
@@ -196,6 +208,7 @@ public class CharacterController2D : MonoBehaviour
                 m_Grounded = false;
                 m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
                 canDoubleJump = true;
+                CreateDust();
                 particleJumpDown.Play();
                 particleJumpUp.Play();
             }
@@ -272,6 +285,7 @@ public class CharacterController2D : MonoBehaviour
 
     private void Flip()
     {
+        CreateDust();
         // Switch the way the player is labelled as facing.
         m_FacingRight = !m_FacingRight;
         // Multiply the player's x local scale by -1.
@@ -279,6 +293,11 @@ public class CharacterController2D : MonoBehaviour
         theScale.x *= -1;
         transform.localScale = theScale;
 
+    }
+
+    private void CreateDust()
+    {
+        dust.Play();
     }
 
     public void ApplyDamage(float damage, Vector3 position)

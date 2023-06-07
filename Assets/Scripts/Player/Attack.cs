@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Attack : MonoBehaviour
+
+	
 {
-	//damage
-	public float dmgValue = 4;
+
+    // Effect blood
+    public GameObject Blood;
+
+    //damage
+    public float dmgValue = 4;
 	//Mũi tên để bắn
 	public GameObject throwableObject;
 
@@ -41,7 +47,8 @@ public class Attack : MonoBehaviour
 			GameObject throwableWeapon = Instantiate(throwableObject, transform.position + new Vector3(transform.localScale.x * 0.5f,-0.2f), Quaternion.identity) as GameObject; 
 			//điều khiển hướng di chuyển của tên
 			Vector2 direction = new Vector2(transform.localScale.x, 0);
-			throwableWeapon.GetComponent<ThrowableWeapon>().direction = direction; 
+            
+            throwableWeapon.GetComponent<ThrowableWeapon>().direction = direction; 
 			throwableWeapon.name = "ThrowableWeapon";
 		}
 	}
@@ -63,8 +70,12 @@ public class Attack : MonoBehaviour
 				if (collidersEnemies[i].transform.position.x - transform.position.x < 0)
 				{
 					dmgValue = -dmgValue;
+					Instantiate(Blood, attackCheck.position, Quaternion.identity);		
+
 				}
-				collidersEnemies[i].gameObject.SendMessage("ApplyDamage", dmgValue);
+
+              
+                collidersEnemies[i].gameObject.SendMessage("ApplyDamage", dmgValue);
 				cam.GetComponent<CameraFollow>().ShakeCamera();
 			}
 		}
