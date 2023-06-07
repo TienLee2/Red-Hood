@@ -7536,6 +7536,7 @@ MonoBehaviour:
     m_Bits: 53
   m_GroundCheck: {fileID: 4291727286006917}
   m_WallCheck: {fileID: 4986330607085369}
+  m_Grounded: 0
   canDoubleJump: 0
   m_DashForce: 25
   life: 10
@@ -18006,7 +18007,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!222 &8048998189307511326
 CanvasRenderer:
   m_ObjectHideFlags: 0
