@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
-public class RangedEnemy : MonoBehaviour
+public class FlyingEye : MonoBehaviour
 {
+
     public float life = 10;
     private bool isPlat;
     private bool isObstacle;
@@ -14,17 +14,11 @@ public class RangedEnemy : MonoBehaviour
 
     private bool facingRight = true;
 
-    [SerializeField] private float attackSpeed;
-
     public float speed = 5f;
-    public GameObject throwableObject;
+
     public bool isInvincible = false;
     private bool isHitted = false;
     private bool dead = false;
-
-    public Transform fireStart;
-
-    public bool doOnceDecision;
 
     [SerializeField] private LevelSystemInterface playerLevel;
 
@@ -39,14 +33,11 @@ public class RangedEnemy : MonoBehaviour
         wallCheck = transform.Find("WallCheck");
 
         rb = GetComponent<Rigidbody2D>();
-        doOnceDecision = true;
     }
 
 
     private void FixedUpdate()
     {
-
-        RangeAttack();
 
         //N?u life bé h?n 0
         if (life <= 0)
@@ -112,33 +103,15 @@ public class RangedEnemy : MonoBehaviour
             StartCoroutine(HitTime());
         }
     }
-    public void RangeAttack()
-    {
-        if (doOnceDecision)
-        {
-            GameObject throwableProj = Instantiate(throwableObject, transform.position + new Vector3(transform.localScale.x * 0.5f, -0.2f), Quaternion.identity) as GameObject;
-            throwableProj.GetComponent<ThrowableProjectile>().owner = gameObject;
-            Vector2 direction = new Vector2(transform.localScale.x, 0f);
-            throwableProj.GetComponent<ThrowableProjectile>().direction = direction;
-            StartCoroutine(NextDecision(attackSpeed));
-        }
-    }
 
     void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Player" && life > 0)
         {
             collision.gameObject.GetComponent<CharacterController2D>().ApplyDamage(2f, transform.position);
-            throwableObject.gameObject.GetComponent<CharacterController2D>().ApplyDamage(2f, transform.position);
         }
     }
 
-    IEnumerator NextDecision(float time)
-    {
-        doOnceDecision = false;
-        yield return new WaitForSeconds(time);
-        doOnceDecision = true;
-    }
 
     //Neu vua bi dinh don thi doi 1 khoang thoi gian moi nhan dame tiep
     IEnumerator HitTime()
