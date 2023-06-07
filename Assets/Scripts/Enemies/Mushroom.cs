@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RangedEnemy : MonoBehaviour
+public class Mushroom : MonoBehaviour
 {
     public float life = 10;
     private bool isPlat;
@@ -11,16 +11,16 @@ public class RangedEnemy : MonoBehaviour
     private Transform wallCheck;
     public LayerMask turnLayerMask;
     private Rigidbody2D rb;
-
+    private Animator anim;
     private bool facingRight = true;
-
+    public bool availableToAttack = false;
     public float speed = 5f;
     public GameObject throwableObject;
     public bool isInvincible = false;
     private bool isHitted = false;
     private bool dead = false;
-
     public Transform fireStart;
+    private Transform attackCheck;
 
     public bool doOnceDecision;
 
@@ -37,9 +37,13 @@ public class RangedEnemy : MonoBehaviour
         wallCheck = transform.Find("WallCheck");
 
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
         doOnceDecision = true;
     }
-
+    void Update()
+    {
+        Animator();
+    }
 
     private void FixedUpdate()
     {
@@ -74,10 +78,12 @@ public class RangedEnemy : MonoBehaviour
                 if (facingRight)
                 {
                     rb.velocity = new Vector2(-speed, rb.velocity.y);
+                    anim.SetBool("Run", true);
                 }
                 else
                 {
                     rb.velocity = new Vector2(speed, rb.velocity.y);
+                    anim.SetBool("Run", true);
                 }
             }
             else
@@ -91,6 +97,7 @@ public class RangedEnemy : MonoBehaviour
     {
         // ??i m?t mà enemy ?ang ??i di?n
         facingRight = !facingRight;
+        anim.SetBool("Run", true);
         // ??i x sang -1 = ??i m?t
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
@@ -114,22 +121,36 @@ public class RangedEnemy : MonoBehaviour
     {
         if (doOnceDecision)
         {
-            GameObject throwableProj = Instantiate(throwableObject, transform.position + new Vector3(transform.localScale.x * 0.5f, -0.2f), Quaternion.identity) as GameObject;
+            
+            anim.SetTrigger("Attack");
+            GameObject throwableProj = Instantiate(throwableObject, transform.position + new Vector3(transform.localScale.x * 0.5f, 0.5f), Quaternion.identity) as GameObject;
             throwableProj.GetComponent<ThrowableProjectile>().owner = gameObject;
             Vector2 direction = new Vector2(transform.localScale.x, 0f);
             throwableProj.GetComponent<ThrowableProjectile>().direction = direction;
-            StartCoroutine(NextDecision(0.5f));
+            StartCoroutine(NextDecision(1f));
+        }
+    }
+    private void Animator()
+    {
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack")
+        && anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7
+        && anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.9)
+        {
+            if (availableToAttack)
+            {
+                Collider2D[] collidersEnemies = Physics2D.OverlapCircleAll(attackCheck.position, 0.9f);
+                for (int i = 0; i < collidersEnemies.Length; i++)
+                {
+                    if (collidersEnemies[i].gameObject.tag == "Player")
+                    {
+                        collidersEnemies[i].gameObject.GetComponent<CharacterController2D>().ApplyDamage(2f, transform.position);
+                    }
+                }
+            }
         }
     }
 
-    void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Player" && life > 0)
-        {
-            collision.gameObject.GetComponent<CharacterController2D>().ApplyDamage(2f, transform.position);
-            throwableObject.gameObject.GetComponent<CharacterController2D>().ApplyDamage(2f, transform.position);
-        }
-    }
+    
 
     IEnumerator NextDecision(float time)
     {

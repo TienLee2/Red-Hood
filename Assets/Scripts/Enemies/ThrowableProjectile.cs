@@ -24,14 +24,10 @@ public class ThrowableProjectile : MonoBehaviour
 			collision.gameObject.GetComponent<CharacterController2D>().ApplyDamage(2f, transform.position);
 			Destroy(gameObject);
 		}
-		//Neu Enemy dinh dan thicung se nhan dame
-		else if ( owner != null && collision.gameObject != owner && collision.gameObject.tag == "Enemy" )
-		{
-			collision.gameObject.SendMessage("ApplyDamage", Mathf.Sign(direction.x) * 2f);
-			Destroy(gameObject);
-		}
+		//Neu Enemy dinh dan thi
+		//cung se nhan dame
 		//Neu vat dinh dan ko phai player hay enemy thi se huy vien dan
-		else if (collision.gameObject.tag != "Enemy" && collision.gameObject.tag != "Player")
+		if (collision.gameObject.layer ==3)
 		{
 			Destroy(gameObject);
 		}
