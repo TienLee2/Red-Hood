@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ThrowableWeapon : MonoBehaviour
 {
-	public Vector2 direction;
+    public GameObject Blood;
+    public Vector2 direction;
 	public bool hasHit = false;
 	public float speed = 10f;
 
@@ -20,7 +21,8 @@ public class ThrowableWeapon : MonoBehaviour
 		if (collision.gameObject.tag == "Enemy")
 		{
 			collision.gameObject.SendMessage("ApplyDamage", Mathf.Sign(direction.x) * 2f);
-			Destroy(gameObject);
+            Instantiate(Blood, transform.position, Quaternion.identity);
+            Destroy(gameObject);
 		}
 		else if (collision.gameObject.tag != "Player")
 		{
