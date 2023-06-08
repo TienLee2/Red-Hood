@@ -7,7 +7,7 @@ public class NightBornEnemy : MonoBehaviour
     private Rigidbody2D m_Rigidbody2D;
 
     //Quyết định cha
-    private bool m_FacingRight = true;  // For determining which way the player is currently facing.
+    private bool m_FacingRight = true; 
 
     public float life = 10;
 
@@ -29,8 +29,6 @@ public class NightBornEnemy : MonoBehaviour
     private bool canAttack = true;
     private Transform attackCheck;
     public float dmgValue = 4;
-
-    public GameObject throwableObject;
 
     private float randomDecision = 0;
     private bool doOnceDecision = true;
@@ -122,8 +120,6 @@ public class NightBornEnemy : MonoBehaviour
                             Jump();
                         else if (randomDecision >= 0.6f && randomDecision < 0.8f)
                             StartCoroutine(Dash());
-                        else if (randomDecision >= 0.8f && randomDecision < 0.95f)
-                            RangeAttack();
                         else
                             Idle();
                     }
@@ -145,11 +141,7 @@ public class NightBornEnemy : MonoBehaviour
                     StartCoroutine(Dash());
             }
         }
-        //Nếu không có enemy thì sẽ gán người chơi vào
-        else
-        {
-            enemy = GameObject.Find("DrawCharacter");
-        }
+        
 
         if (transform.localScale.x * m_Rigidbody2D.velocity.x > 0 && !m_FacingRight && life > 0)
         {
@@ -219,18 +211,7 @@ public class NightBornEnemy : MonoBehaviour
         StartCoroutine(WaitToAttack(1.5f));
     }
 
-    //đánh tầm xa
-    public void RangeAttack()
-    {
-        if (doOnceDecision)
-        {
-            GameObject throwableProj = Instantiate(throwableObject, transform.position + new Vector3(transform.localScale.x * 0.5f, -0.2f), Quaternion.identity) as GameObject;
-            throwableProj.GetComponent<ThrowableProjectile>().owner = gameObject;
-            Vector2 direction = new Vector2(transform.localScale.x, 0f);
-            throwableProj.GetComponent<ThrowableProjectile>().direction = direction;
-            StartCoroutine(NextDecision(0.5f));
-        }
-    }
+   
     //chạy
     public void Run()
     {

@@ -19,8 +19,6 @@ public class GolbinEnemy : MonoBehaviour
     public bool isInvincible = false;
     private bool isHitted = false;
 
-    [SerializeField] private float m_DashForce = 25f;
-    private bool isDashing = false;
 
     public GameObject enemy;
     private float distToPlayer;
@@ -77,11 +75,6 @@ public class GolbinEnemy : MonoBehaviour
         //N?u enemy không có
         if (enemy != null)
         {
-            //N?u c?n dash
-            if (isDashing)
-            {
-                m_Rigidbody2D.velocity = new Vector2(transform.localScale.x * m_DashForce, 0);
-            }
             //N?u ch?a b? ?ánh
             if (!isHitted)
             {
@@ -123,7 +116,7 @@ public class GolbinEnemy : MonoBehaviour
                         if (randomDecision < 0.4f)
                             Run();
                         else if (randomDecision >= 0.4f && randomDecision < 0.6f)
-                            Jump();
+                            Run();
                         else if (randomDecision >= 0.6f && randomDecision < 0.8f)
                             Idle();
                         else
