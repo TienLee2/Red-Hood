@@ -10,10 +10,10 @@ public class DestructibleObject : MonoBehaviour
 	private float shakeDuration = 0f;
 
 	// A measure of magnitude for the shake. Tweak based on your preference
-	private float shakeMagnitude = 0.25f;
+	[SerializeField] private float shakeMagnitude = 0.25f;
 
-	// A measure of how quickly the shake effect should evaporate
-	private float dampingSpeed = 1f;
+    // A measure of how quickly the shake effect should evaporate
+    [SerializeField] private float dampingSpeed = 1f;
 
 	// The initial position of the GameObject
 	Vector3 initialPosition;
