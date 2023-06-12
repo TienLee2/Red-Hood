@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
+	public GameObject Blood;
+
 	//damage
 	public float dmgValue = 4;
 	//Mũi tên để bắn
@@ -46,7 +48,7 @@ public class Attack : MonoBehaviour
 		{
             canAttack = false;
             //Tạo object cung tên
-            GameObject throwableWeapon = Instantiate(throwableObject, transform.position + new Vector3(transform.localScale.x * 0.5f,-0.2f), Quaternion.identity) as GameObject; 
+            GameObject throwableWeapon = Instantiate(throwableObject, transform.position + new Vector3(transform.localScale.x * 0.5f,1f), Quaternion.identity) as GameObject; 
 			//điều khiển hướng di chuyển của tên
 			Vector2 direction = new Vector2(transform.localScale.x, 0);
 			throwableWeapon.GetComponent<ThrowableWeapon>().direction = direction; 
@@ -65,6 +67,7 @@ public class Attack : MonoBehaviour
 	{
 		dmgValue = Mathf.Abs(dmgValue);
 		Collider2D[] collidersEnemies = Physics2D.OverlapCircleAll(attackCheck.position, 1f);
+		
 		for (int i = 0; i < collidersEnemies.Length; i++)
 		{
 			if (collidersEnemies[i].gameObject.tag == "Enemy")
@@ -74,7 +77,8 @@ public class Attack : MonoBehaviour
 					dmgValue = -dmgValue;
 				}
 				collidersEnemies[i].gameObject.SendMessage("ApplyDamage", dmgValue);
-				Debug.Log("Hit");
+                Instantiate(Blood, attackCheck.position, Quaternion.identity);
+                Debug.Log("Hit");
 				cam.GetComponent<CameraFollow>().ShakeCamera();
 			}
 		}
