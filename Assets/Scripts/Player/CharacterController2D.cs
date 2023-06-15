@@ -311,6 +311,7 @@ public class CharacterController2D : MonoBehaviour
             
             life -= damage;
             animator.SetTrigger("Hurt");
+            AudioManager.instance.PlaySFX("Hit");
             Vector2 damageDir = Vector3.Normalize(transform.position - position) * 40f;
             m_Rigidbody2D.velocity = Vector2.zero;
             m_Rigidbody2D.AddForce(damageDir * 10);

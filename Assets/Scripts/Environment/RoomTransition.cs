@@ -6,6 +6,8 @@ public class RoomTransition : MonoBehaviour
 {
     public GameObject virtualCam;
     public GameObject backGround;
+    public AudioSource _AudioSource;
+    public AudioClip _AudioClip;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -13,6 +15,8 @@ public class RoomTransition : MonoBehaviour
         {
             virtualCam.SetActive(true);
             backGround.SetActive(true);
+            _AudioSource.clip = _AudioClip;
+            _AudioSource.Play();
         }
     }
 
@@ -22,6 +26,7 @@ public class RoomTransition : MonoBehaviour
         {
             virtualCam.SetActive(false);
             backGround.SetActive(false);
+            _AudioSource.Stop();
         }
     }
 }

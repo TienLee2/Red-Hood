@@ -194,6 +194,7 @@ public class GolbinEnemy : MonoBehaviour
             float direction = damage / Mathf.Abs(damage);
             damage = Mathf.Abs(damage);
             anim.SetBool("Hit", true);
+            AudioManager.instance.PlaySFX("Hit");
             life -= damage;
             transform.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
             transform.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(direction * 300f, 100f));
@@ -206,6 +207,7 @@ public class GolbinEnemy : MonoBehaviour
     {
         //Set animator ?ánh
         anim.SetTrigger("Attack");
+        AudioManager.instance.PlaySFX("Attack");
         //Ki?m ta collider k? d?ch ? g?n
         availableToAttack = true;
         //sau khi t?n công ??i 0.5 giây ?? ti?p t?c t?n công
@@ -233,6 +235,7 @@ public class GolbinEnemy : MonoBehaviour
         if (doOnceDecision)
         {
             anim.SetBool("IsWaiting", false);
+            AudioManager.instance.PlaySFX("Jump");
             m_Rigidbody2D.AddForce(new Vector2(0f, 850f));
             StartCoroutine(NextDecision(1f));
         }

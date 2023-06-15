@@ -97,6 +97,7 @@ public class FlyingEye : MonoBehaviour
             float direction = damage / Mathf.Abs(damage);
             damage = Mathf.Abs(damage);
             transform.GetComponent<Animator>().SetBool("Hit", true);
+            AudioManager.instance.PlaySFX("Hit");
             life -= damage;
             rb.velocity = Vector2.zero;
             rb.AddForce(new Vector2(direction * 500f, 100f));

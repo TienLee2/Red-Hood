@@ -31,11 +31,13 @@ public class PlayerMovement : MonoBehaviour {
             {
                 jump = true;
                 animator.SetBool("Jumping", true);
+                AudioManager.instance.PlaySFX("Jump");
             }
 
             if (Input.GetKeyDown(KeyCode.C))
             {
                 dash = true;
+                AudioManager.instance.PlaySFX("Dash");
             }
         }
         else

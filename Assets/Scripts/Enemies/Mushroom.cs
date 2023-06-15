@@ -111,6 +111,7 @@ public class Mushroom : MonoBehaviour
             float direction = damage / Mathf.Abs(damage);
             damage = Mathf.Abs(damage);
             transform.GetComponent<Animator>().SetBool("Hit", true);
+            AudioManager.instance.PlaySFX("Hit");
             life -= damage;
             rb.velocity = Vector2.zero;
             rb.AddForce(new Vector2(direction * 500f, 100f));
@@ -123,6 +124,7 @@ public class Mushroom : MonoBehaviour
         {
             
             anim.SetTrigger("Attack");
+            AudioManager.instance.PlaySFX("Attack");
             GameObject throwableProj = Instantiate(throwableObject, transform.position + new Vector3(transform.localScale.x * 0.5f, 0.5f), Quaternion.identity) as GameObject;
             throwableProj.GetComponent<ThrowableProjectile>().owner = gameObject;
             Vector2 direction = new Vector2(transform.localScale.x, 0f);
