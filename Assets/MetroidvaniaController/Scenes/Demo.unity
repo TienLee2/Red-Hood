@@ -5709,7 +5709,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1477428202000311
 GameObject:
   m_ObjectHideFlags: 0
@@ -6149,6 +6149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 783f8b7882d2d2a42a5b76de9179978f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dust: {fileID: 0}
   m_JumpForce: 850
   m_MovementSmoothing: 0.05
   m_AirControl: 1
@@ -6206,6 +6207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9955788a5eaffa49a9297f38eaa6202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Blood: {fileID: 0}
   dmgValue: 4
   throwableObject: {fileID: 5532974359214069763, guid: 340067e8e5a097546ad175f1d00a6ece, type: 3}
   attackCheck: {fileID: 4370582654368065}
@@ -16036,6 +16038,10 @@ PrefabInstance:
     - target: {fileID: 6547390979021471242, guid: 3e1be4a926ea30e4c946aa0eb47280d2, type: 3}
       propertyPath: m_Name
       value: AllyAISimple
+      objectReference: {fileID: 0}
+    - target: {fileID: 6628244837278237418, guid: 3e1be4a926ea30e4c946aa0eb47280d2, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e1be4a926ea30e4c946aa0eb47280d2, type: 3}
