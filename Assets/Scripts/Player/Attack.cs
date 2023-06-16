@@ -38,6 +38,7 @@ public class Attack : MonoBehaviour
 			canAttack = false;
 			//set animator tấn công
 			animator.SetTrigger("Attacking");
+            AudioManager.instance.PlaySFX("Attack");
             DoDashDamage();
             //đếm ngược thời gian để tiếp tục tấn công
             StartCoroutine(AttackCooldown(0.25f));

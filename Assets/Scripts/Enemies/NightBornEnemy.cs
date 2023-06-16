@@ -1,25 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 public class NightBornEnemy : MonoBehaviour
 {
     private Rigidbody2D m_Rigidbody2D;
 
-    //Quyết định cha
-    private bool m_FacingRight = true; 
+    //Quy?t ??nh cha
+    private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 
     public float life = 10;
 
     private bool facingRight = true;
 
     public float speed = 5f;
-    public bool availableToAttack = false;
+
     public bool isInvincible = false;
     private bool isHitted = false;
 
-    [SerializeField] private float m_DashForce = 25f;
-    private bool isDashing = false;
 
     public GameObject enemy;
     private float distToPlayer;
@@ -35,11 +34,14 @@ public class NightBornEnemy : MonoBehaviour
     private bool endDecision = false;
     private Animator anim;
     private bool dead = false;
+    private bool run = false;
+    public bool availableToAttack;
 
     [SerializeField] private LevelSystemInterface playerLevel;
 
     void Awake()
     {
+        enemy = GameObject.FindGameObjectWithTag("Player");
         GameObject playerGameObject = GameObject.FindGameObjectWithTag("Player");
         //lay script kinh nghiem tu gameObject gan vao playerLevel
         playerLevel = playerGameObject.GetComponentInParent<LevelSystemInterface>();
@@ -48,14 +50,16 @@ public class NightBornEnemy : MonoBehaviour
         attackCheck = transform.Find("AttackCheck").transform;
         anim = GetComponent<Animator>();
     }
-    void Update()
+
+    public void Update()
     {
-        Animator();
+        AnimatorController();
     }
+
     // Update is called once per frame
     void FixedUpdate()
     {
-        //Nếu life bé hơn 0 thì chết
+        //N?u life bé h?n 0 thì ch?t
         if (life <= 0)
         {
             if (!dead)
@@ -68,29 +72,24 @@ public class NightBornEnemy : MonoBehaviour
 
             StartCoroutine(DestroyEnemy());
         }
-        //Nếu enemy không có
+        //N?u enemy không có
         if (enemy != null)
         {
-            //Nếu cần dash
-            if (isDashing)
-            {
-                m_Rigidbody2D.velocity = new Vector2(transform.localScale.x * m_DashForce, 0);
-            }
-            //Nếu chưa bị đánh
+            //N?u ch?a b? ?ánh
             if (!isHitted)
             {
-                //tìm khoảng cách giữa kẻ địch và bản thân
+                //tìm kho?ng cách gi?a k? ??ch và b?n thân
                 distToPlayer = enemy.transform.position.x - transform.position.x;
                 distToPlayerY = enemy.transform.position.y - transform.position.y;
 
-                //Abs trả về số nguyên dương, và nếu khoảng cách bé hơn 0.25 thì nv sẽ đứng yên
+                //Abs tr? v? s? nguyên d??ng, và n?u kho?ng cách bé h?n 0.25 thì nv s? ??ng yên
                 if (Mathf.Abs(distToPlayer) < 0.25f)
                 {
                     GetComponent<Rigidbody2D>().velocity = new Vector2(0f, m_Rigidbody2D.velocity.y);
                     anim.SetBool("IsWaiting", true);
                     anim.SetBool("Run", false);
                 }
-                //Nếu khoảng cách lớn hơn 25 và trong tầm melee thì sẽ tấn công tầm gần
+                //N?u kho?ng cách l?n h?n 25 và trong t?m melee thì s? t?n công t?m g?n
                 else if (Mathf.Abs(distToPlayer) > 0.25f && Mathf.Abs(distToPlayer) < meleeDist && Mathf.Abs(distToPlayerY) < 2f)
                 {
                     GetComponent<Rigidbody2D>().velocity = new Vector2(0f, m_Rigidbody2D.velocity.y);
@@ -108,7 +107,7 @@ public class NightBornEnemy : MonoBehaviour
                 }
                 else
                 {
-                    //ngẫu nhiên quyết định hành động
+                    //ng?u nhiên quy?t ??nh hành ??ng
                     if (!endDecision)
                     {
                         if ((distToPlayer > 0f && transform.localScale.x < 0f) || (distToPlayer < 0f && transform.localScale.x > 0f))
@@ -117,9 +116,9 @@ public class NightBornEnemy : MonoBehaviour
                         if (randomDecision < 0.4f)
                             Run();
                         else if (randomDecision >= 0.4f && randomDecision < 0.6f)
-                            Jump();
+                            Run();
                         else if (randomDecision >= 0.6f && randomDecision < 0.8f)
-                            StartCoroutine(Dash());
+                            Idle();
                         else
                             Idle();
                     }
@@ -129,23 +128,24 @@ public class NightBornEnemy : MonoBehaviour
                     }
                 }
             }
-            //Nếu bị đánh
+            //N?u b? ?ánh
             else if (isHitted)
             {
                 if ((distToPlayer > 0f && transform.localScale.x > 0f) || (distToPlayer < 0f && transform.localScale.x < 0f))
                 {
                     Flip();
-                    StartCoroutine(Dash());
                 }
-                else
-                    StartCoroutine(Dash());
             }
         }
-        
+        //N?u không có enemy thì s? gán ng??i ch?i vào
+        else
+        {
+            enemy = GameObject.Find("DrawCharacter");
+        }
 
         if (transform.localScale.x * m_Rigidbody2D.velocity.x > 0 && !m_FacingRight && life > 0)
         {
-            //xoay nhân vật
+            //xoay nhân v?t
             Flip();
         }
         // Otherwise if the input is moving the player left and the player is facing right...
@@ -156,17 +156,7 @@ public class NightBornEnemy : MonoBehaviour
         }
     }
 
-    void Flip()
-    {
-        //xoay nhân vật nên sẽ đổi bool 
-        facingRight = !facingRight;
-
-        //đổi trục x ngược với hệ tọa độ
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
-    }
-    private void Animator()
+    private void AnimatorController()
     {
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack")
         && anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7
@@ -185,7 +175,18 @@ public class NightBornEnemy : MonoBehaviour
             }
         }
     }
-    //function tính damage bị dính phải
+
+    void Flip()
+    {
+        //xoay nhân v?t nên s? ??i bool 
+        facingRight = !facingRight;
+
+        //??i tr?c x ng??c v?i h? t?a ??
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+    }
+    //function tính damage b? dính ph?i
     public void ApplyDamage(float damage)
     {
         if (!isInvincible)
@@ -193,6 +194,7 @@ public class NightBornEnemy : MonoBehaviour
             float direction = damage / Mathf.Abs(damage);
             damage = Mathf.Abs(damage);
             anim.SetBool("Hit", true);
+            AudioManager.instance.PlaySFX("Hit");
             life -= damage;
             transform.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
             transform.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(direction * 300f, 100f));
@@ -200,50 +202,52 @@ public class NightBornEnemy : MonoBehaviour
         }
     }
 
-    //function đánh tầm gần
+    //function ?ánh t?m g?n
     public void MeleeAttack()
     {
-        //Set animator đánh
+        //Set animator ?ánh
         anim.SetTrigger("Attack");
-        //Kiểm ta collider kẻ dịch ở gần
+        AudioManager.instance.PlaySFX("Attack");
+        //Ki?m ta collider k? d?ch ? g?n
         availableToAttack = true;
-        //sau khi tấn công đợi 0.5 giây để tiếp tục tấn công
-        StartCoroutine(WaitToAttack(1.5f));
+        //sau khi t?n công ??i 0.5 giây ?? ti?p t?c t?n công
+        StartCoroutine(WaitToAttack(5f));
     }
 
-   
-    //chạy
+    //ch?y
     public void Run()
     {
-        //Set bool đợi trong animator thành false để có thể chạy
+        run = true;
+        //Set bool ??i trong animator thành false ?? có th? ch?y
         anim.SetBool("Run", true);
-        //di chuyển nhân vật theo vector 2
+        //di chuy?n nhân v?t theo vector 2
         m_Rigidbody2D.velocity = new Vector2(distToPlayer / Mathf.Abs(distToPlayer) * speed, m_Rigidbody2D.velocity.y);
         if (doOnceDecision)
             StartCoroutine(NextDecision(0.5f));
     }
     public void Jump()
     {
-        //tìm vector 3 điểm nhảy của nhân vật
+        //tìm vector 3 ?i?m nh?y c?a nhân v?t
         Vector3 targetVelocity = new Vector2(distToPlayer / Mathf.Abs(distToPlayer) * speed, m_Rigidbody2D.velocity.y);
         Vector3 velocity = Vector3.zero;
-        //Smoothdamp dần thay đổi rigidbody theo hướng vector3 mục tiêu trong một khoảng thời gian nhất định
+        //Smoothdamp d?n thay ??i rigidbody theo h??ng vector3 m?c tiêu trong m?t kho?ng th?i gian nh?t ??nh
         m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref velocity, 0.05f);
         if (doOnceDecision)
         {
             anim.SetBool("IsWaiting", false);
+            AudioManager.instance.PlaySFX("Jump");
             m_Rigidbody2D.AddForce(new Vector2(0f, 850f));
             StartCoroutine(NextDecision(1f));
         }
     }
-    //Trạng thái tĩnh, không làm bất cứ hành động gì
+    //Tr?ng thái t?nh, không làm b?t c? hành ??ng gì
     public void Idle()
     {
-        //giữ chiều x của nhân vật đứng yên, còn chiều y đi theo hướng của nhân vật
+        //gi? chi?u x c?a nhân v?t ??ng yên, còn chi?u y ?i theo h??ng c?a nhân v?t
         m_Rigidbody2D.velocity = new Vector2(0f, m_Rigidbody2D.velocity.y);
         if (doOnceDecision)
         {
-            anim.SetBool("Run", false);
+            anim.SetBool("IsWaiting", true);
             StartCoroutine(NextDecision(1f));
         }
     }
@@ -271,17 +275,8 @@ public class NightBornEnemy : MonoBehaviour
         canAttack = true;
     }
 
-    IEnumerator Dash()
-    {
-        anim.SetBool("IsDashing", true);
-        anim.SetBool("Run", false);
-        isDashing = true;
-        yield return new WaitForSeconds(0.1f);
-        isDashing = false;
-        EndDecision();
-    }
 
-    //Quyết định hành động tiếp theo nv sẽ làm dự vào time
+    //Quy?t ??nh hành ??ng ti?p theo nv s? làm d? vào time
     IEnumerator NextDecision(float time)
     {
         doOnceDecision = false;
@@ -296,8 +291,8 @@ public class NightBornEnemy : MonoBehaviour
         CapsuleCollider2D capsule = GetComponent<CapsuleCollider2D>();
         capsule.size = new Vector2(1f, 0.25f);
         capsule.offset = new Vector2(0f, -0.8f);
-        capsule.direction = CapsuleDirection2D.Horizontal;
-        transform.GetComponent<Animator>().SetBool("IsDead", true);
+        //capsule.direction = CapsuleDirection2D.Horizontal;
+        transform.GetComponent<Animator>().SetBool("Dead", true);
         yield return new WaitForSeconds(0.25f);
         m_Rigidbody2D.velocity = new Vector2(0, m_Rigidbody2D.velocity.y);
         yield return new WaitForSeconds(1f);
