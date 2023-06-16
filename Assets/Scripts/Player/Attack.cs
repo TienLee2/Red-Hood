@@ -5,7 +5,7 @@ using UnityEngine;
 public class Attack : MonoBehaviour
 {
 	public GameObject Blood;
-
+	public Transform bloodPosition;
 	//damage
 	public float dmgValue = 4;
 	//Mũi tên để bắn
@@ -26,6 +26,7 @@ public class Attack : MonoBehaviour
 	private void Start()
 	{
         player = GetComponent<CharacterController2D>();
+		animator = GetComponent<Animator>();
     }
 
 	private void Update()
@@ -46,18 +47,31 @@ public class Attack : MonoBehaviour
 		//Nhấn V để bắn, có thể tạo thêm code để đếm ngược thời gian có thể bắn
 		if (Input.GetKeyDown(KeyCode.V) && canAttack && player.m_Grounded)
 		{
+			player.canMove = false;
             canAttack = false;
-            //Tạo object cung tên
-            GameObject throwableWeapon = Instantiate(throwableObject, transform.position + new Vector3(transform.localScale.x * 0.5f,1f), Quaternion.identity) as GameObject; 
-			//điều khiển hướng di chuyển của tên
-			Vector2 direction = new Vector2(transform.localScale.x, 0);
-			throwableWeapon.GetComponent<ThrowableWeapon>().direction = direction; 
-			throwableWeapon.name = "ThrowableWeapon";
-            StartCoroutine(AttackCooldown(1f));
+
+            animator.SetTrigger("rangeAttack");
+            
+            StartCoroutine(Shoot(0.5f));
         }
 	}
 
-	IEnumerator AttackCooldown(float time)
+    IEnumerator Shoot(float time)
+	{
+        yield return new WaitForSeconds(time);
+        //Tạo object cung tên
+        GameObject throwableWeapon = Instantiate(throwableObject, transform.position + new Vector3(transform.localScale.x * 0.5f, 1f), Quaternion.identity) as GameObject;
+		throwableWeapon.transform.localScale = new Vector3(gameObject.transform.localScale.x, throwableObject.transform.localScale.y, throwableObject.transform.localScale.z);
+		//điều khiển hướng di chuyển của tên
+        Vector2 direction = new Vector2(transform.localScale.x, 0);
+        throwableWeapon.GetComponent<ThrowableWeapon>().direction = direction;
+        throwableWeapon.name = "ThrowableWeapon";
+        StartCoroutine(AttackCooldown(1f));
+        player.canMove = true;
+    }
+
+
+    IEnumerator AttackCooldown(float time)
 	{
 		yield return new WaitForSeconds(time);
 		canAttack = true;
@@ -77,7 +91,10 @@ public class Attack : MonoBehaviour
 					dmgValue = -dmgValue;
 				}
 				collidersEnemies[i].gameObject.SendMessage("ApplyDamage", dmgValue);
-                Instantiate(Blood, attackCheck.position, Quaternion.identity);
+
+                Instantiate(Blood, bloodPosition.position, Quaternion.identity);
+
+
                 Debug.Log("Hit");
 				cam.GetComponent<CameraFollow>().ShakeCamera();
 			}
