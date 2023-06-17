@@ -186,15 +186,16 @@ public class CharacterController2D : MonoBehaviour
             
             if (dash && canDash && !isWallSliding)
             {
-                //m_Rigidbody2D.AddForce(new Vector2(transform.localScale.x * m_DashForce, 0f));
+                /*m_Rigidbody2D.velocity = new Vector2(transform.localScale.x, 0);*/
+                m_Rigidbody2D.AddForce(new Vector2(transform.localScale.x * m_DashForce, 0f));
                 StartCoroutine(DashCooldown());
                 
             }
             // If crouching, check to see if the character can stand up
-            if (isDashing)
+            /*if (isDashing)
             {
                 m_Rigidbody2D.velocity = new Vector2(transform.localScale.x * m_DashForce, 0);
-            }
+            }*/
             //only control the player if grounded or airControl is turned on
             else if (m_Grounded || m_AirControl)
             {
