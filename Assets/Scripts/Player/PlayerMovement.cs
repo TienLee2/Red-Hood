@@ -12,20 +12,26 @@ public class PlayerMovement : MonoBehaviour {
 	float horizontalMove = 0f;
 	bool jump = false;
 	bool dash = false;
-    private CharacterController2D player;
     //bool dashAxis = false;
 
     private void Start()
     {
-        player = GetComponent<CharacterController2D>();
+        controller = GetComponent<CharacterController2D>();
     }
 
     void Update () {
-		if(player.life > 0)
+		if(controller.life > 0)
 		{
             horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
-
-            animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+            if (controller.canMove)
+            {
+                animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+            }
+            else
+            {
+                animator.SetFloat("Speed", 0);
+            }
+            
 
             if (Input.GetKeyDown(KeyCode.Z))
             {

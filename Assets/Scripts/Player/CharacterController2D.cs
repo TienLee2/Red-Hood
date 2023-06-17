@@ -55,7 +55,7 @@ public class CharacterController2D : MonoBehaviour
 
     public float life = 10f; //Life of the player
     public bool invincible = false; //If player can die
-    private bool canMove = true; //If player can move
+    public bool canMove = true; //If player can move
 
     private Animator animator;
     public ParticleSystem particleJumpUp; //Trail particles
@@ -71,11 +71,22 @@ public class CharacterController2D : MonoBehaviour
     public UnityEvent OnFallEvent;
     public UnityEvent OnLandEvent;
 
+    [SerializeField] private int _jumpTime;
+    private bool bossBattle;
+
+
+
     [System.Serializable]
     public class BoolEvent : UnityEvent<bool> { }
 
     private void Awake()
     {
+        if (bossBattle)
+        {
+            LoadToJson();
+        }
+        
+
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
@@ -162,23 +173,29 @@ public class CharacterController2D : MonoBehaviour
     public void Move(float move, bool jump, bool dash)
     {
         if (canMove)
-        {   
-            if (move != 0)
+        {
+            /*if (move != 0)
             {
                 CreateDust();
+            }*/
+
+            if (m_Grounded)
+            {
+                _jumpTime = 0;
             }
             
             if (dash && canDash && !isWallSliding)
             {
-                //m_Rigidbody2D.AddForce(new Vector2(transform.localScale.x * m_DashForce, 0f));
+                /*m_Rigidbody2D.velocity = new Vector2(transform.localScale.x, 0);*/
+                m_Rigidbody2D.AddForce(new Vector2(transform.localScale.x * m_DashForce, 0f));
                 StartCoroutine(DashCooldown());
                 
             }
             // If crouching, check to see if the character can stand up
-            if (isDashing)
+            /*if (isDashing)
             {
                 m_Rigidbody2D.velocity = new Vector2(transform.localScale.x * m_DashForce, 0);
-            }
+            }*/
             //only control the player if grounded or airControl is turned on
             else if (m_Grounded || m_AirControl)
             {
@@ -204,8 +221,9 @@ public class CharacterController2D : MonoBehaviour
                 }
             }
             // If the player should jump...
-            if (m_Grounded && jump)
+            if (m_Grounded && jump )
             {
+                _jumpTime += 1;
                 // Add a vertical force to the player.
                 animator.SetBool("IsJumping", true);
                 animator.SetBool("JumpUp", true);
@@ -222,8 +240,8 @@ public class CharacterController2D : MonoBehaviour
                 m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, 0);
                 m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce / 1.2f));
                 animator.SetBool("IsDoubleJumping", true);
+                CreateDust();
             }
-
             else if (m_IsWall && !m_Grounded)
             {
                 if (!oldWallSlidding && m_Rigidbody2D.velocity.y < 0 || isDashing)
@@ -232,7 +250,7 @@ public class CharacterController2D : MonoBehaviour
                     m_WallCheck.localPosition = new Vector3(-m_WallCheck.localPosition.x, m_WallCheck.localPosition.y, 0);
                     Flip();
                     StartCoroutine(WaitToCheck(0.1f));
-                    //canDoubleJump = true;
+                    canDoubleJump = true;
                     animator.SetBool("IsWallSliding", true);
                 }
                 isDashing = false;
@@ -250,8 +268,9 @@ public class CharacterController2D : MonoBehaviour
                     }
                 }
 
-                if (jump && isWallSliding)
+                if (jump && isWallSliding && _jumpTime != 2)
                 {
+                    _jumpTime += 1;
                     animator.SetBool("IsJumping", true);
                     animator.SetBool("JumpUp", true);
                     m_Rigidbody2D.velocity = new Vector2(0f, 0f);
@@ -283,6 +302,10 @@ public class CharacterController2D : MonoBehaviour
                 m_WallCheck.localPosition = new Vector3(Mathf.Abs(m_WallCheck.localPosition.x), m_WallCheck.localPosition.y, 0);
                 canDoubleJump = true;
             }
+        }
+        else
+        {
+            m_Rigidbody2D.velocity = new Vector2(0, 0);
         }
     }
 
@@ -385,5 +408,13 @@ public class CharacterController2D : MonoBehaviour
         m_Rigidbody2D.velocity = new Vector2(0, m_Rigidbody2D.velocity.y);
         yield return new WaitForSeconds(2f);
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void LoadToJson()
+    {
+        float playerPosX = PlayerPrefs.GetFloat("PlayerPositionX");
+        float playerPosY = PlayerPrefs.GetFloat("PlayerPositionY");
+
+        transform.position = new Vector2(playerPosX, playerPosY);
     }
 }
