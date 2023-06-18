@@ -53,7 +53,8 @@ public class CharacterController2D : MonoBehaviour
     //bool check n?u nv có ?ang chu?n b? l??t t??ng hay không
     private bool canCheck = false;
 
-    public float life = 10f; //Life of the player
+    public float life; //Life of the player
+    public float maxLife = 10f;
     public bool invincible = false; //If player can die
     public bool canMove = true; //If player can move
 
@@ -73,6 +74,7 @@ public class CharacterController2D : MonoBehaviour
 
     [SerializeField] private int _jumpTime;
     private bool bossBattle;
+    public HealthBar healthBar;
 
 
 
@@ -86,6 +88,8 @@ public class CharacterController2D : MonoBehaviour
             LoadToJson();
         }
         
+        life = maxLife;
+        healthBar.SetMaxHealth(maxLife);
 
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -192,10 +196,10 @@ public class CharacterController2D : MonoBehaviour
                 
             }
             // If crouching, check to see if the character can stand up
-            /*if (isDashing)
+            if (isDashing)
             {
                 m_Rigidbody2D.velocity = new Vector2(transform.localScale.x * m_DashForce, 0);
-            }*/
+            }
             //only control the player if grounded or airControl is turned on
             else if (m_Grounded || m_AirControl)
             {
@@ -333,6 +337,8 @@ public class CharacterController2D : MonoBehaviour
         {
             
             life -= damage;
+            healthBar.SetHealth(life);
+
             animator.SetTrigger("Hurt");
             AudioManager.instance.PlaySFX("Hit");
             Vector2 damageDir = Vector3.Normalize(transform.position - position) * 40f;
