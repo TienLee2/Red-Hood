@@ -20,6 +20,11 @@ public class ChucNangMenu : MonoBehaviour
         LevelManager.Instance.LoadScene(sceneName);
     }
 
+    public void Continue(string sceneName)
+    {
+        LevelManager.Instance.LoadScene(sceneName);
+    }
+
     public void Thoat()
     {
         Application.Quit();
