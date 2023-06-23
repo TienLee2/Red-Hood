@@ -17,6 +17,12 @@ public class ChucNangMenu : MonoBehaviour
     public void ChoiMoi()
     {
         SceneManager.LoadScene(1);
+        PlayerPrefs.DeleteAll();
+    }
+
+    public void TiepTuc()
+    {
+        SceneManager.LoadScene(1);
     }
 
     public void Thoat()
