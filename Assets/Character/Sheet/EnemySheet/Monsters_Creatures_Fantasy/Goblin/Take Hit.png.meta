@@ -159,12 +159,33 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Take Hit_3
+      name: Take Hit_2
       rect:
         serializedVersion: 2
         x: 354
+        y: 66
+        width: 7
+        height: 5
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5de89ebbf64ed0f40a702b73f5a768fd
+      internalID: -1644602223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Take Hit_3
+      rect:
+        serializedVersion: 2
+        x: 358
         y: 49
-        width: 42
+        width: 38
         height: 37
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -180,12 +201,33 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
+      name: Take Hit_4
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 65
+        width: 5
+        height: 5
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21734185974fa624083c93856d1fb8f6
+      internalID: -1463279779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
       name: Take Hit_5
       rect:
         serializedVersion: 2
-        x: 503
+        x: 508
         y: 49
-        width: 40
+        width: 35
         height: 37
       alignment: 7
       pivot: {x: 0.5, y: 0}

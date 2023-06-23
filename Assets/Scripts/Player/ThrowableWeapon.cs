@@ -20,7 +20,7 @@ public class ThrowableWeapon : MonoBehaviour
 	{
 		if (collision.gameObject.tag == "Enemy")
 		{
-			collision.gameObject.SendMessage("ApplyDamage", Mathf.Sign(direction.x));
+			collision.gameObject.SendMessage("ApplyDamage", Mathf.Sign(direction.x) * 2f);
             Instantiate(Blood, transform.position, Quaternion.identity);
             Destroy(gameObject);
 		}

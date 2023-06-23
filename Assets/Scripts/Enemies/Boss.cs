@@ -8,7 +8,7 @@ public class Boss : MonoBehaviour
     private Rigidbody2D m_Rigidbody2D;
 
     [Header("Health")]
-    [SerializeField] private float life;
+    private float life;
     public float maxLife;
 
     public float speed = 5f;
@@ -61,7 +61,6 @@ public class Boss : MonoBehaviour
 
     private void Awake()
     {
-        enemy = null;
         GameObject playerGameObject = GameObject.FindGameObjectWithTag("Player");
         //lay script kinh nghiem tu gameObject gan vao playerLevel
         playerLevel = playerGameObject.GetComponentInParent<LevelSystemInterface>();
@@ -401,7 +400,7 @@ public class Boss : MonoBehaviour
 
     public void SpinAttackDamaged()
     {
-        Collider2D[] collidersEnemies = Physics2D.OverlapCircleAll(attackCheck4.position, 3f);
+        Collider2D[] collidersEnemies = Physics2D.OverlapCircleAll(attackCheck4.position, 2f);
         for (int i = 0; i < collidersEnemies.Length; i++)
         {
             if (collidersEnemies[i].gameObject.tag == "Player")

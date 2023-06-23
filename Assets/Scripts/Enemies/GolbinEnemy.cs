@@ -85,43 +85,25 @@ public class GolbinEnemy : MonoBehaviour
                 //Abs tr? v? s? nguyên d??ng, và n?u kho?ng cách bé h?n 0.25 thì nv s? ??ng yên
                 if (Mathf.Abs(distToPlayer) < 0.25f)
                 {
-                    Idle();
+                    GetComponent<Rigidbody2D>().velocity = new Vector2(0f, m_Rigidbody2D.velocity.y);
+                    anim.SetBool("IsWaiting", true);
+                    anim.SetBool("Run", false);
                 }
                 //N?u kho?ng cách l?n h?n 25 và trong t?m melee thì s? t?n công t?m g?n
                 else if (Mathf.Abs(distToPlayer) > 0.25f && Mathf.Abs(distToPlayer) < meleeDist && Mathf.Abs(distToPlayerY) < 2f)
                 {
-                    
-                    if (randomDecision < 0.4f)
-                    {
-                        if ((distToPlayer > 0f && transform.localScale.x < 0f) || (distToPlayer < 0f && transform.localScale.x > 0f))
-                            Flip();
-                    }
-                    else
-                    {
-                        Idle();
-                    }
-
+                    GetComponent<Rigidbody2D>().velocity = new Vector2(0f, m_Rigidbody2D.velocity.y);
+                    if ((distToPlayer > 0f && transform.localScale.x < 0f) || (distToPlayer < 0f && transform.localScale.x > 0f))
+                        Flip();
                     if (canAttack)
                     {
-                        if ((distToPlayer > 0f && transform.localScale.x < 0f) || (distToPlayer < 0f && transform.localScale.x > 0f))
-                            Flip();
-                        Idle();
                         MeleeAttack();
                     }
                 }
                 else if (Mathf.Abs(distToPlayer) > meleeDist && Mathf.Abs(distToPlayer) < rangeDist)
                 {
-                    if(randomDecision < 0.4f)
-                    {
-                        Run();
-                        m_Rigidbody2D.velocity = new Vector2(distToPlayer / Mathf.Abs(distToPlayer) * speed, m_Rigidbody2D.velocity.y);
-                    }
-                    else
-                    {
-                        Run();
-                        m_Rigidbody2D.velocity = new Vector2(-distToPlayer / Mathf.Abs(distToPlayer) * speed, m_Rigidbody2D.velocity.y);
-                    }
-                    
+                    anim.SetBool("IsWaiting", false);
+                    m_Rigidbody2D.velocity = new Vector2(distToPlayer / Mathf.Abs(distToPlayer) * speed, m_Rigidbody2D.velocity.y);
                 }
                 else
                 {
@@ -133,6 +115,10 @@ public class GolbinEnemy : MonoBehaviour
 
                         if (randomDecision < 0.4f)
                             Run();
+                        else if (randomDecision >= 0.4f && randomDecision < 0.6f)
+                            Run();
+                        else if (randomDecision >= 0.6f && randomDecision < 0.8f)
+                            Idle();
                         else
                             Idle();
                     }
@@ -145,8 +131,16 @@ public class GolbinEnemy : MonoBehaviour
             //N?u b? ?ánh
             else if (isHitted)
             {
-                m_Rigidbody2D.velocity = new Vector2(-distToPlayer / Mathf.Abs(distToPlayer) * speed * 2f, m_Rigidbody2D.velocity.y);
+                if ((distToPlayer > 0f && transform.localScale.x > 0f) || (distToPlayer < 0f && transform.localScale.x < 0f))
+                {
+                    Flip();
+                }
             }
+        }
+        //N?u không có enemy thì s? gán ng??i ch?i vào
+        else
+        {
+            enemy = GameObject.Find("DrawCharacter");
         }
 
         if (transform.localScale.x * m_Rigidbody2D.velocity.x > 0 && !m_FacingRight && life > 0)
@@ -195,17 +189,15 @@ public class GolbinEnemy : MonoBehaviour
     //function tính damage b? dính ph?i
     public void ApplyDamage(float damage)
     {
-        if ((distToPlayer > 0f && transform.localScale.x < 0f) || (distToPlayer < 0f && transform.localScale.x > 0f))
-            Flip();
         if (!isInvincible)
         {
             float direction = damage / Mathf.Abs(damage);
             damage = Mathf.Abs(damage);
-            anim.SetTrigger("TakeHit");
+            anim.SetBool("Hit", true);
             AudioManager.instance.PlaySFX("Hit");
             life -= damage;
-            m_Rigidbody2D.velocity = new Vector2(0, 0);
-            m_Rigidbody2D.AddForce(new Vector2(direction * 300f, 100f));
+            transform.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+            transform.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(direction * 300f, 100f));
             StartCoroutine(HitTime());
         }
     }
@@ -213,7 +205,6 @@ public class GolbinEnemy : MonoBehaviour
     //function ?ánh t?m g?n
     public void MeleeAttack()
     {
-        m_Rigidbody2D.velocity = new Vector2(0f, m_Rigidbody2D.velocity.y);
         //Set animator ?ánh
         anim.SetTrigger("Attack");
         AudioManager.instance.PlaySFX("Attack");
@@ -234,11 +225,24 @@ public class GolbinEnemy : MonoBehaviour
         if (doOnceDecision)
             StartCoroutine(NextDecision(0.5f));
     }
-
+    public void Jump()
+    {
+        //tìm vector 3 ?i?m nh?y c?a nhân v?t
+        Vector3 targetVelocity = new Vector2(distToPlayer / Mathf.Abs(distToPlayer) * speed, m_Rigidbody2D.velocity.y);
+        Vector3 velocity = Vector3.zero;
+        //Smoothdamp d?n thay ??i rigidbody theo h??ng vector3 m?c tiêu trong m?t kho?ng th?i gian nh?t ??nh
+        m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref velocity, 0.05f);
+        if (doOnceDecision)
+        {
+            anim.SetBool("IsWaiting", false);
+            AudioManager.instance.PlaySFX("Jump");
+            m_Rigidbody2D.AddForce(new Vector2(0f, 850f));
+            StartCoroutine(NextDecision(1f));
+        }
+    }
     //Tr?ng thái t?nh, không làm b?t c? hành ??ng gì
     public void Idle()
     {
-        anim.SetBool("Run", false);
         //gi? chi?u x c?a nhân v?t ??ng yên, còn chi?u y ?i theo h??ng c?a nhân v?t
         m_Rigidbody2D.velocity = new Vector2(0f, m_Rigidbody2D.velocity.y);
         if (doOnceDecision)
@@ -279,13 +283,15 @@ public class GolbinEnemy : MonoBehaviour
         yield return new WaitForSeconds(time);
         EndDecision();
         doOnceDecision = true;
+        anim.SetBool("IsWaiting", false);
     }
 
     IEnumerator DestroyEnemy()
     {
-        canAttack = false;
-        m_Rigidbody2D.velocity = new Vector2(0f, m_Rigidbody2D.velocity.y);
-
+        CapsuleCollider2D capsule = GetComponent<CapsuleCollider2D>();
+        capsule.size = new Vector2(1f, 0.25f);
+        capsule.offset = new Vector2(0f, -0.8f);
+        //capsule.direction = CapsuleDirection2D.Horizontal;
         transform.GetComponent<Animator>().SetBool("Dead", true);
         yield return new WaitForSeconds(0.25f);
         m_Rigidbody2D.velocity = new Vector2(0, m_Rigidbody2D.velocity.y);

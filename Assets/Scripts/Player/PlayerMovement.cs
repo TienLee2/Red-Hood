@@ -10,38 +10,28 @@ public class PlayerMovement : MonoBehaviour {
 	public float runSpeed = 40f;
 
 	float horizontalMove = 0f;
-	public bool jump = false;
+	bool jump = false;
 	bool dash = false;
+    private CharacterController2D player;
     //bool dashAxis = false;
 
     private void Start()
     {
-        controller = GetComponent<CharacterController2D>();
+        player = GetComponent<CharacterController2D>();
     }
 
     void Update () {
-		if(controller.life > 0)
+		if(player.life > 0)
 		{
             horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
-            if (controller.canMove)
-            {
-                animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
-            }
-            else
-            {
-                animator.SetFloat("Speed", 0);
-            }
-            
+
+            animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
 
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                if (controller.canMove)
-                {
-                    jump = true;
-                    animator.SetBool("Jumping", true);
-                    AudioManager.instance.PlaySFX("Jump");
-                }
-                
+                jump = true;
+                animator.SetBool("Jumping", true);
+                AudioManager.instance.PlaySFX("Jump");
             }
 
             if (Input.GetKeyDown(KeyCode.C))
