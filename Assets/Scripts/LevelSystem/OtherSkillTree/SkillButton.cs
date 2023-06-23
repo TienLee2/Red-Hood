@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class SkillButton : MonoBehaviour
 {
     public GameObject hehe;
-    private Sprite skillImage;
     public TextMeshProUGUI skillNameText;
     public TextMeshProUGUI skillDescriptionText;
     public Button upgradeButton;
@@ -13,21 +12,34 @@ public class SkillButton : MonoBehaviour
     public int skillButtonId;
 
     private LevelSystemInterface levelSystem;
+    private CharacterController2D characterController;
 
     private void Awake()
     {
-        skillImage = hehe.GetComponent<Image>().sprite;
         upgradeButton.onClick.AddListener(UpgradeButton);
 
         var player = GameObject.FindGameObjectWithTag("Player");
         levelSystem = player.GetComponent<LevelSystemInterface>();
+        characterController = player.GetComponent<CharacterController2D>();
+        
+    }
+
+    private void Start()
+    {
+        int skillUnlocked = PlayerPrefs.GetInt("SkillUnlocked" + skillButtonId);
+        if (skillUnlocked == 1)
+        {
+            characterController._skillUnlocked[skillButtonId] = true;
+            SkillManager.instance.skills[skillButtonId].isUpgrade = true;
+        }
     }
 
     public void PressSkillButton()
     {
         SkillManager.instance.activateSkill = transform.GetComponent<Skill>();
+        PlayerPrefs.SetInt("SkillPoint", levelSystem.SkillPoint());
 
-        skillImage = SkillManager.instance.skills[skillButtonId].skillSprite;
+        hehe.GetComponent<Image>().sprite = SkillManager.instance.skills[skillButtonId].skillSprite;
         skillNameText.text = SkillManager.instance.skills[skillButtonId].skillName;
         skillDescriptionText.text = SkillManager.instance.skills[skillButtonId].skillDes;
 
@@ -43,6 +55,17 @@ public class SkillButton : MonoBehaviour
         {
             levelSystem.SubtractSkillPoint(1);
             SkillManager.instance.skills[skillButtonId].isUpgrade = true;
+            PlayerPrefs.SetInt("SkillPoint", levelSystem.SkillPoint());
+
+
+            for (int i = 0; i <= characterController._skillUnlocked.Length; i++)
+            {
+                if (i == skillButtonId)
+                {
+                    characterController._skillUnlocked[i] = true;
+                    PlayerPrefs.SetInt("SkillUnlocked" + skillButtonId, 1);
+                }
+            }
         }
     }
 }

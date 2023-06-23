@@ -59,6 +59,11 @@ public class LevelSystem
         return level;
     }
 
+    public void SetLevelPoint(int point)
+    {
+        levelPoint = point;
+    }
+
     public float GetExperienceNormalized()
     {
         return (float)experience/experienceToNextLevel;
