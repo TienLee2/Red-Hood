@@ -14,9 +14,10 @@ public class ChucNangMenu : MonoBehaviour
         Screen.SetResolution(1920, 1080, false);
     }
 
-    public void ChoiMoi()
+    public void ChoiMoi(string sceneName)
     {
-        SceneManager.LoadScene(1);
+        /*SceneManager.LoadScene(1);*/
+        LevelManager.Instance.LoadScene(sceneName);
     }
 
     public void Thoat()
