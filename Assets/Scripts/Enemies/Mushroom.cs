@@ -164,6 +164,7 @@ public class Mushroom : MonoBehaviour
     //Neu vua bi dinh don thi doi 1 khoang thoi gian moi nhan dame tiep
     IEnumerator HitTime()
     {
+        anim.SetTrigger("TakeHit");
         isHitted = true;
         isInvincible = true;
         yield return new WaitForSeconds(0.1f);
@@ -177,6 +178,9 @@ public class Mushroom : MonoBehaviour
         CapsuleCollider2D capsule = GetComponent<CapsuleCollider2D>();
         capsule.size = new Vector2(1f, 0.25f);
         capsule.offset = new Vector2(0f, -0.8f);
+
+        anim.SetBool("Death", true);
+
         capsule.direction = CapsuleDirection2D.Horizontal;
         yield return new WaitForSeconds(0.25f);
         rb.velocity = new Vector2(0, rb.velocity.y);
