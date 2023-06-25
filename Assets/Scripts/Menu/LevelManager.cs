@@ -11,7 +11,6 @@ public class LevelManager : MonoBehaviour
 
 
     [SerializeField] private GameObject _loaderCanvas;
-    [SerializeField] private Slider _progressBar;     
     // Start is called before the first frame update
     void Awake()
     {
@@ -35,7 +34,6 @@ public class LevelManager : MonoBehaviour
         do
         {
             await Task.Delay(100);
-            _progressBar.value = scene.progress;
         } while (scene.progress < 0.9f);
 
         scene.allowSceneActivation = true;

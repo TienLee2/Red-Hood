@@ -77,10 +77,12 @@ public class CharacterController2D : MonoBehaviour
     public HealthBar healthBar;
 
     private PlayerMovement _movement;
-
+    private Attack attack;
 
     public bool[] _skillUnlocked;
     public bool _doubleJumpUnlocked;
+
+    
 
 
     [System.Serializable]
@@ -89,6 +91,7 @@ public class CharacterController2D : MonoBehaviour
     private void Awake()
     {
         _movement = GetComponent<PlayerMovement>();
+        attack = GetComponent<Attack>();
 
         for(int i = 0; i < _skillUnlocked.Length; i++)
         {
@@ -97,6 +100,16 @@ public class CharacterController2D : MonoBehaviour
             {
                 _skillUnlocked[i] = true;
             }
+        }
+
+        int doubleJump = PlayerPrefs.GetInt("DoubleJump");
+        if(doubleJump == 1)
+        {
+            _doubleJumpUnlocked = true;
+        }
+        else
+        {
+            _doubleJumpUnlocked = false;
         }
 
         life = maxLife;
@@ -404,6 +417,11 @@ public class CharacterController2D : MonoBehaviour
             healthBar.SetHealth(life);
 
             animator.SetTrigger("Hurt");
+            animator.ResetTrigger("Attacking1");
+            animator.ResetTrigger("Attacking2");
+            animator.ResetTrigger("Attacking3");
+            attack.combo = 1;
+
             _movement.jump = false;
             AudioManager.instance.PlaySFX("Hit");
             Vector2 damageDir = Vector3.Normalize(transform.position - position) * 40f;
