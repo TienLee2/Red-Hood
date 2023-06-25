@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class AllowDoubleJump : MonoBehaviour
 {
@@ -32,6 +31,7 @@ public class AllowDoubleJump : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             characterController._doubleJumpUnlocked = true;
+            PlayerPrefs.SetInt("DoubleJump",1);
             Destroy(gameObject);
         }
     }

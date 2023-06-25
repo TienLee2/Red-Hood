@@ -13,6 +13,7 @@ public class PauseMenu : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1;
         inventory.SetActive(false);
     }
 
@@ -60,6 +61,7 @@ public class PauseMenu : MonoBehaviour
 
     public void BackToMenu(string sceneName)
     {
+        Time.timeScale = 1;
         LevelManager.Instance.LoadScene(sceneName);
     }
 }

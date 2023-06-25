@@ -47,6 +47,8 @@ public class Attack : MonoBehaviour
     {
         Combos();
 
+        DoDashDamage();
+
         //Nhấn V để bắn, có thể tạo thêm code để đếm ngược thời gian có thể bắn
         if (Input.GetKeyDown(KeyCode.V) && canAttack && player.m_Grounded)
         {
@@ -92,14 +94,10 @@ public class Attack : MonoBehaviour
         {
             //chỉnh bool false để ko đánh nhiều lần được
             canAttack = false;
-            //set animator tấn công
-            Attacking = true;
             animator.SetTrigger("Attacking" + combo);
             AudioManager.instance.PlaySFX("Attack");
-            DoDashDamage();
             //đếm ngược thời gian để tiếp tục tấn công
             StartCoroutine(AttackCooldown(0.1f));
-
         }
     }
 
@@ -129,28 +127,42 @@ public class Attack : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         canAttack = true;
+        
+    }
+
+    public void SetAttack()
+    {
+        Attacking = true;
+    }
+
+    public void StopAttack()
+    {
+        Attacking = false;
     }
 
     public void DoDashDamage()
     {
-        dmgValue = Mathf.Abs(dmgValue);
-        Collider2D[] collidersEnemies = Physics2D.OverlapCircleAll(attackCheck.position, 1f);
-
-        for (int i = 0; i < collidersEnemies.Length; i++)
+        if (Attacking)
         {
-            if (collidersEnemies[i].gameObject.tag == "Enemy")
+            dmgValue = Mathf.Abs(dmgValue);
+            Collider2D[] collidersEnemies = Physics2D.OverlapCircleAll(attackCheck.position, 1f);
+
+            for (int i = 0; i < collidersEnemies.Length; i++)
             {
-                if (collidersEnemies[i].transform.position.x - transform.position.x < 0)
+                if (collidersEnemies[i].gameObject.tag == "Enemy")
                 {
-                    dmgValue = -dmgValue;
+                    if (collidersEnemies[i].transform.position.x - transform.position.x < 0)
+                    {
+                        dmgValue = -dmgValue;
+                    }
+                    collidersEnemies[i].gameObject.SendMessage("ApplyDamage", dmgValue);
+                    Instantiate(Blood, bloodPosition.position, Quaternion.identity);
+                    Attacking = false;
+                    cam.GetComponent<CameraFollow>().ShakeCamera();
                 }
-                collidersEnemies[i].gameObject.SendMessage("ApplyDamage", dmgValue);
-                Instantiate(Blood, bloodPosition.position, Quaternion.identity);
-
-
-                Debug.Log("Hit");
-                cam.GetComponent<CameraFollow>().ShakeCamera();
             }
+
         }
+        
     }
 }
