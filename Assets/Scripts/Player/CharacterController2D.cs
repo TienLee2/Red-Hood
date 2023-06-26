@@ -340,7 +340,7 @@ public class CharacterController2D : MonoBehaviour
             healthBar.SetHealth(life);
 
             animator.SetTrigger("Hurt");
-            AudioManager.instance.PlaySFX("Hit");
+            AudioManager.instance.PlaySFX("PlayerHit");
             Vector2 damageDir = Vector3.Normalize(transform.position - position) * 40f;
             m_Rigidbody2D.velocity = Vector2.zero;
             m_Rigidbody2D.AddForce(damageDir * 10);
@@ -360,6 +360,7 @@ public class CharacterController2D : MonoBehaviour
     {
         
         animator.SetTrigger("IsDashing");
+        AudioManager.instance.PlaySFX("Dash");
         isDashing = true;
         canDash = false;
         yield return new WaitForSeconds(0.1f);
@@ -407,6 +408,7 @@ public class CharacterController2D : MonoBehaviour
     IEnumerator WaitToDead()
     {
         animator.SetBool("Dead", true);
+        AudioManager.instance.PlaySFX("PlayerDeath");
         canMove = false;
         invincible = true;
         GetComponent<Attack>().enabled = false;

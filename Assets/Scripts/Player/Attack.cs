@@ -50,9 +50,8 @@ public class Attack : MonoBehaviour
 		{
 			player.canMove = false;
             canAttack = false;
-
             animator.SetTrigger("rangeAttack");
-            
+            AudioManager.instance.PlaySFX("RangeAttack");
             StartCoroutine(Shoot(0.5f));
         }
 	}

@@ -41,7 +41,7 @@ public class GolbinEnemy : MonoBehaviour
 
     void Awake()
     {
-        enemy = GameObject.FindGameObjectWithTag("Player");
+        enemy = null;
         GameObject playerGameObject = GameObject.FindGameObjectWithTag("Player");
         //lay script kinh nghiem tu gameObject gan vao playerLevel
         playerLevel = playerGameObject.GetComponentInParent<LevelSystemInterface>();
@@ -54,6 +54,14 @@ public class GolbinEnemy : MonoBehaviour
     public void Update()
     {
         AnimatorController();
+        Collider2D[] collidersEnemies = Physics2D.OverlapCircleAll(attackCheck.position, 5f);
+        for (int i = 0; i < collidersEnemies.Length; i++)
+        {
+            if (collidersEnemies[i].gameObject.tag == "Player")
+            {
+                enemy = GameObject.FindGameObjectWithTag("Player");
+            }
+        }
     }
 
     // Update is called once per frame
@@ -287,6 +295,7 @@ public class GolbinEnemy : MonoBehaviour
         m_Rigidbody2D.velocity = new Vector2(0f, m_Rigidbody2D.velocity.y);
 
         transform.GetComponent<Animator>().SetBool("Dead", true);
+        AudioManager.instance.PlaySFX("GoblinDeath");
         yield return new WaitForSeconds(0.25f);
         m_Rigidbody2D.velocity = new Vector2(0, m_Rigidbody2D.velocity.y);
         yield return new WaitForSeconds(1f);
