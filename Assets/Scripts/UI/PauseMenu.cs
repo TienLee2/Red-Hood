@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class PauseMenu : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1;
         inventory.SetActive(false);
     }
 
@@ -24,6 +26,7 @@ public class PauseMenu : MonoBehaviour
                 Time.timeScale = 0;
                 pauseMenu.SetActive(true);
                 pauseMenuActive = true;
+                Cursor.visible = true;
 
             }
         }
@@ -35,12 +38,14 @@ public class PauseMenu : MonoBehaviour
                 Time.timeScale = 0;
                 inventory.SetActive(true);
                 inventoryActive = true;
+                Cursor.visible = true;
             }
             else
             {
                 Time.timeScale = 1;
                 inventory.SetActive(false);
                 inventoryActive = false;
+                Cursor.visible = false;
             }
             
         }
@@ -48,8 +53,15 @@ public class PauseMenu : MonoBehaviour
 
     public void ResumeGame()
     {
+        Cursor.visible = false;
         Time.timeScale = 1;
         pauseMenu.SetActive(false);
         pauseMenuActive = false;
+    }
+
+    public void BackToMenu(string sceneName)
+    {
+        Time.timeScale = 1;
+        LevelManager.Instance.LoadScene(sceneName);
     }
 }

@@ -12,11 +12,19 @@ public class ChucNangMenu : MonoBehaviour
     private void Awake()
     {
         Screen.SetResolution(1920, 1080, false);
+        Cursor.visible = true;
     }
 
-    public void ChoiMoi()
+    public void ChoiMoi(string sceneName)
     {
-        SceneManager.LoadScene(1);
+        /*SceneManager.LoadScene(1);*/
+        LevelManager.Instance.LoadScene(sceneName);
+        PlayerPrefs.DeleteAll();
+    }
+
+    public void Continue(string sceneName)
+    {
+        LevelManager.Instance.LoadScene(sceneName);
     }
 
     public void Thoat()
@@ -41,8 +49,6 @@ public class ChucNangMenu : MonoBehaviour
         Application.Quit();
     }
 
-    /*List<int> widths = new List<int>() { 568, 960, 1200, 1920 };
-    List<int> heights = new List<int>() { 329, 540, 800, 1080 };*/
 
     List<int> widths = new List<int>() { 1920 , 1200, 960, 568};
     List<int> heights = new List<int>() { 1080 , 800, 540, 329};

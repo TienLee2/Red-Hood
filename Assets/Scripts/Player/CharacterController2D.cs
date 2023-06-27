@@ -15,7 +15,7 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] private float m_JumpForce = 400f;
     //smooth nhân v?t khi di chuy?n
     [Range(0, .3f)][SerializeField] private float m_MovementSmoothing = .05f;   // How much to smooth out the movement
-    
+
     //ng??i ch?i có th? ?i?u khi?n nhân v?t trên không trung hay ko
     [SerializeField] private bool m_AirControl = false;
     //quy?t ??nh xem cái nào là m?t ??t
@@ -76,6 +76,13 @@ public class CharacterController2D : MonoBehaviour
     private bool bossBattle;
     public HealthBar healthBar;
 
+    private PlayerMovement _movement;
+    private Attack attack;
+
+    public bool[] _skillUnlocked;
+    public bool _doubleJumpUnlocked;
+
+    
 
 
     [System.Serializable]
@@ -83,11 +90,28 @@ public class CharacterController2D : MonoBehaviour
 
     private void Awake()
     {
-        if (bossBattle)
+        _movement = GetComponent<PlayerMovement>();
+        attack = GetComponent<Attack>();
+
+        for(int i = 0; i < _skillUnlocked.Length; i++)
         {
-            LoadToJson();
+            int skillUnlocked = PlayerPrefs.GetInt("SkillUnlocked" + i);
+            if(skillUnlocked == 1)
+            {
+                _skillUnlocked[i] = true;
+            }
         }
-        
+
+        int doubleJump = PlayerPrefs.GetInt("DoubleJump");
+        if(doubleJump == 1)
+        {
+            _doubleJumpUnlocked = true;
+        }
+        else
+        {
+            _doubleJumpUnlocked = false;
+        }
+
         life = maxLife;
         healthBar.SetMaxHealth(maxLife);
 
@@ -99,6 +123,64 @@ public class CharacterController2D : MonoBehaviour
 
         if (OnLandEvent == null)
             OnLandEvent = new UnityEvent();
+    }
+
+    private void Start()
+    {
+        // Health up
+        if (_skillUnlocked[0])
+        {
+            maxLife += 5f;
+        }
+        //Run faster
+        if (_skillUnlocked[1])
+        {
+            _movement.runSpeed += 10f;
+        }
+        //Attack chain 2
+        if (_skillUnlocked[2])
+        {
+            animator.SetInteger("Unlock", 1);
+        }
+        //Attack chain 3
+        if (_skillUnlocked[3])
+        {
+            animator.SetInteger("Unlock", 2);
+        }
+    }
+
+    private void Update()
+    {
+        if (!_doubleJumpUnlocked)
+        {
+            canDoubleJump = false;
+        }
+
+        //Attack chain 2
+        if (_skillUnlocked[4])
+        {
+            animator.SetInteger("Unlock", 1);
+            //Attack chain 3
+            if (_skillUnlocked[5])
+            {
+                animator.SetInteger("Unlock", 2);
+            }
+        }
+        
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            //Health up
+            if (_skillUnlocked[0])
+            {
+                maxLife += 5f;
+                life = maxLife;
+            }
+            //Run faster
+            if (_skillUnlocked[1])
+            {
+                _movement.runSpeed += 10f;
+            }
+        }
     }
 
 
@@ -169,7 +251,7 @@ public class CharacterController2D : MonoBehaviour
                 }
             }
         }
-        
+
     }
 
 
@@ -187,13 +269,13 @@ public class CharacterController2D : MonoBehaviour
             {
                 _jumpTime = 0;
             }
-            
+
             if (dash && canDash && !isWallSliding)
             {
                 /*m_Rigidbody2D.velocity = new Vector2(transform.localScale.x, 0);*/
                 m_Rigidbody2D.AddForce(new Vector2(transform.localScale.x * m_DashForce, 0f));
                 StartCoroutine(DashCooldown());
-                
+
             }
             // If crouching, check to see if the character can stand up
             if (isDashing)
@@ -204,8 +286,8 @@ public class CharacterController2D : MonoBehaviour
             else if (m_Grounded || m_AirControl)
             {
                 if (m_Rigidbody2D.velocity.y < -limitFallSpeed)
-                    
-                m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, -limitFallSpeed);
+
+                    m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, -limitFallSpeed);
                 // Move the character by finding the target velocity
                 Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
                 // And then smoothing it out and applying it to the character
@@ -219,18 +301,15 @@ public class CharacterController2D : MonoBehaviour
                 }
                 // Otherwise if the input is moving the player left and the player is facing right...
                 else if (move < 0 && m_FacingRight && !isWallSliding)
-                {                  
+                {
                     // ... flip the player.
                     Flip();
                 }
             }
             // If the player should jump...
-            if (m_Grounded && jump )
+            if (m_Grounded && jump)
             {
                 _jumpTime += 1;
-                // Add a vertical force to the player.
-                animator.SetBool("IsJumping", true);
-                animator.SetBool("JumpUp", true);
                 m_Grounded = false;
                 m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
                 canDoubleJump = true;
@@ -275,8 +354,6 @@ public class CharacterController2D : MonoBehaviour
                 if (jump && isWallSliding && _jumpTime != 2)
                 {
                     _jumpTime += 1;
-                    animator.SetBool("IsJumping", true);
-                    animator.SetBool("JumpUp", true);
                     m_Rigidbody2D.velocity = new Vector2(0f, 0f);
                     m_Rigidbody2D.AddForce(new Vector2(transform.localScale.x * m_JumpForce * 1.2f, m_JumpForce));
                     jumpWallStartX = transform.position.x;
@@ -340,10 +417,21 @@ public class CharacterController2D : MonoBehaviour
             healthBar.SetHealth(life);
 
             animator.SetTrigger("Hurt");
+<<<<<<< HEAD
             AudioManager.instance.PlaySFX("PlayerHit");
+=======
+            animator.ResetTrigger("Attacking1");
+            animator.ResetTrigger("Attacking2");
+            animator.ResetTrigger("Attacking3");
+            attack.combo = 1;
+
+            _movement.jump = false;
+            AudioManager.instance.PlaySFX("Hit");
+>>>>>>> e666ddfd224942bad2947c2b472235aaaf4acded
             Vector2 damageDir = Vector3.Normalize(transform.position - position) * 40f;
             m_Rigidbody2D.velocity = Vector2.zero;
             m_Rigidbody2D.AddForce(damageDir * 10);
+
             if (life <= 0)
             {
                 StartCoroutine(WaitToDead());
@@ -358,7 +446,7 @@ public class CharacterController2D : MonoBehaviour
 
     IEnumerator DashCooldown()
     {
-        
+
         animator.SetTrigger("IsDashing");
         AudioManager.instance.PlaySFX("Dash");
         isDashing = true;
@@ -371,6 +459,8 @@ public class CharacterController2D : MonoBehaviour
 
     IEnumerator Stun(float time)
     {
+        _movement.jump = false;
+        animator.SetBool("Jumping", false);
         canMove = false;
         yield return new WaitForSeconds(time);
         canMove = true;
@@ -416,13 +506,5 @@ public class CharacterController2D : MonoBehaviour
         m_Rigidbody2D.velocity = new Vector2(0, m_Rigidbody2D.velocity.y);
         yield return new WaitForSeconds(2f);
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    public void LoadToJson()
-    {
-        float playerPosX = PlayerPrefs.GetFloat("PlayerPositionX");
-        float playerPosY = PlayerPrefs.GetFloat("PlayerPositionY");
-
-        transform.position = new Vector2(playerPosX, playerPosY);
     }
 }

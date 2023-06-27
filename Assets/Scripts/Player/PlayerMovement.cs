@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour {
 	public float runSpeed = 40f;
 
 	float horizontalMove = 0f;
-	bool jump = false;
+	public bool jump = false;
 	bool dash = false;
     //bool dashAxis = false;
 
@@ -35,9 +35,13 @@ public class PlayerMovement : MonoBehaviour {
 
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                jump = true;
-                animator.SetBool("Jumping", true);
-                AudioManager.instance.PlaySFX("Jump");
+                if (controller.canMove)
+                {
+                    jump = true;
+                    animator.SetBool("Jumping", true);
+                    AudioManager.instance.PlaySFX("Jump");
+                }
+                
             }
 
             if (Input.GetKeyDown(KeyCode.C))
