@@ -50,13 +50,13 @@ public class PlayerTouchMovement : MonoBehaviour
             isMovingRight = false;
             horizontalMove = 0f;
         }
-        
+
     }
 
     public void UseDash()
     {
-         dash = true;
-                AudioManager.instance.PlaySFX("Dash");
+        dash = true;
+        AudioManager.instance.PlaySFX("Dash");
         Debug.Log("Use Dash"); // Ví dụ: In ra thông báo "Use Dash"
     }
 
@@ -92,18 +92,6 @@ public class PlayerTouchMovement : MonoBehaviour
                 animator.SetFloat("Speed", 0);
             }
 
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                jump = true;
-                animator.SetBool("Jumping", true);
-                AudioManager.instance.PlaySFX("Jump");
-            }
-
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                dash = true;
-                AudioManager.instance.PlaySFX("Dash");
-            }
         }
         else
         {
