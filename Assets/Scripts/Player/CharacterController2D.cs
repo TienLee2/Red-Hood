@@ -81,6 +81,7 @@ public class CharacterController2D : MonoBehaviour
 
     public bool[] _skillUnlocked;
     public bool _doubleJumpUnlocked;
+    public bool Tutorial;
 
     
 
@@ -102,15 +103,19 @@ public class CharacterController2D : MonoBehaviour
             }
         }
 
-        int doubleJump = PlayerPrefs.GetInt("DoubleJump");
-        if(doubleJump == 1)
+        if (!Tutorial)
         {
-            _doubleJumpUnlocked = true;
+            int doubleJump = PlayerPrefs.GetInt("DoubleJump");
+            if (doubleJump == 1)
+            {
+                _doubleJumpUnlocked = true;
+            }
+            else
+            {
+                _doubleJumpUnlocked = false;
+            }
         }
-        else
-        {
-            _doubleJumpUnlocked = false;
-        }
+        
 
         life = maxLife;
         healthBar.SetMaxHealth(maxLife);
@@ -417,9 +422,7 @@ public class CharacterController2D : MonoBehaviour
             healthBar.SetHealth(life);
 
             animator.SetTrigger("Hurt");
-<<<<<<< HEAD
             AudioManager.instance.PlaySFX("PlayerHit");
-=======
             animator.ResetTrigger("Attacking1");
             animator.ResetTrigger("Attacking2");
             animator.ResetTrigger("Attacking3");
@@ -427,7 +430,6 @@ public class CharacterController2D : MonoBehaviour
 
             _movement.jump = false;
             AudioManager.instance.PlaySFX("Hit");
->>>>>>> e666ddfd224942bad2947c2b472235aaaf4acded
             Vector2 damageDir = Vector3.Normalize(transform.position - position) * 40f;
             m_Rigidbody2D.velocity = Vector2.zero;
             m_Rigidbody2D.AddForce(damageDir * 10);

@@ -1,0 +1,54 @@
+{
+    "name": "MobileInput",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "c3328bce-37eb-470a-b25a-ac1dddf789c9",
+            "actions": [
+                {
+                    "name": "RunNWalk",
+                    "type": "Value",
+                    "id": "1ab1a854-6d61-44e2-9bf3-7c6e64e9d0d3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Jump",
+                    "type": "PassThrough",
+                    "id": "0c30bc3a-d53a-45db-aff5-23f979f1306b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "8c792eba-0e41-451d-8d09-c4392f9b6aaa",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RunNWalk",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4b4f4574-65e1-4062-b2bc-1b7f5fa6fadf",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
