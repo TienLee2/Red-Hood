@@ -34,26 +34,13 @@ public class Attack : MonoBehaviour
 		//Nhấn X và tấn công
 		if (Input.GetKeyDown(KeyCode.X) && canAttack && player.m_Grounded)
 		{
-			//chỉnh bool false để ko đánh nhiều lần được
-			canAttack = false;
-			//set animator tấn công
-			animator.SetTrigger("Attacking");
-            AudioManager.instance.PlaySFX("Attack");
-            DoDashDamage();
-            //đếm ngược thời gian để tiếp tục tấn công
-            StartCoroutine(AttackCooldown(0.25f));
-
+			AttackSkill();
         }
 
 		//Nhấn V để bắn, có thể tạo thêm code để đếm ngược thời gian có thể bắn
 		if (Input.GetKeyDown(KeyCode.V) && canAttack && player.m_Grounded)
 		{
-			player.canMove = false;
-            canAttack = false;
-
-            animator.SetTrigger("rangeAttack");
-            
-            StartCoroutine(Shoot(0.5f));
+			ShootSkill();
         }
 	}
 
@@ -78,7 +65,28 @@ public class Attack : MonoBehaviour
 		canAttack = true;
 	}
 
-	public void DoDashDamage()
+	public void AttackSkill()
+	{
+        //chỉnh bool false để ko đánh nhiều lần được
+        canAttack = false;
+        //set animator tấn công
+        animator.SetTrigger("Attacking");
+        AudioManager.instance.PlaySFX("Attack");
+        DoDashDamage();
+        //đếm ngược thời gian để tiếp tục tấn công
+        StartCoroutine(AttackCooldown(0.25f));
+    }
+    public void ShootSkill()
+    {
+        player.canMove = false;
+        canAttack = false;
+
+        animator.SetTrigger("rangeAttack");
+
+        StartCoroutine(Shoot(0.5f));
+    }
+
+    public void DoDashDamage()
 	{
 		dmgValue = Mathf.Abs(dmgValue);
 		Collider2D[] collidersEnemies = Physics2D.OverlapCircleAll(attackCheck.position, 1f);
