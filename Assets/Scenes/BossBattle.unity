@@ -37961,7 +37961,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1377240473040909}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8644d33345e77614ba3ace9c18398d0e, type: 3}
   m_Name: 
@@ -38034,6 +38034,7 @@ MonoBehaviour:
   healthBar: {fileID: 1915057697360164637}
   _skillUnlocked: 00000000000000
   _doubleJumpUnlocked: 1
+  Tutorial: 0
 --- !u!114 &114435281355890617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47928,7 +47929,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1377240473040909}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d2411fb1392c1b49a56fdfdedd1d563, type: 3}
   m_Name: 

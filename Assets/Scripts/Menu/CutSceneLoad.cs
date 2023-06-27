@@ -25,8 +25,9 @@ public class CutSceneLoad : MonoBehaviour
 
     public void LoadTutorialToGame()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(5);
     }
+
 
     public void LoadEndGame()
     {

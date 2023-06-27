@@ -81,6 +81,7 @@ public class CharacterController2D : MonoBehaviour
 
     public bool[] _skillUnlocked;
     public bool _doubleJumpUnlocked;
+    public bool Tutorial;
 
     
 
@@ -102,15 +103,19 @@ public class CharacterController2D : MonoBehaviour
             }
         }
 
-        int doubleJump = PlayerPrefs.GetInt("DoubleJump");
-        if(doubleJump == 1)
+        if (!Tutorial)
         {
-            _doubleJumpUnlocked = true;
+            int doubleJump = PlayerPrefs.GetInt("DoubleJump");
+            if (doubleJump == 1)
+            {
+                _doubleJumpUnlocked = true;
+            }
+            else
+            {
+                _doubleJumpUnlocked = false;
+            }
         }
-        else
-        {
-            _doubleJumpUnlocked = false;
-        }
+        
 
         life = maxLife;
         healthBar.SetMaxHealth(maxLife);

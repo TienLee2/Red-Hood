@@ -5,6 +5,7 @@ using UnityEngine;
 public class AllowDoubleJump : MonoBehaviour
 {
     public GameObject player;
+    public GameObject jump;
     public CharacterController2D characterController;
     //adjust this to change speed
     public float speed = 5f;
@@ -32,6 +33,7 @@ public class AllowDoubleJump : MonoBehaviour
         {
             characterController._doubleJumpUnlocked = true;
             PlayerPrefs.SetInt("DoubleJump",1);
+            jump.SetActive(true);
             Destroy(gameObject);
         }
     }

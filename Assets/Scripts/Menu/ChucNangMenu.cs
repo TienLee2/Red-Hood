@@ -7,12 +7,21 @@ public class ChucNangMenu : MonoBehaviour
 {
     public GameObject mainMenu;
     public GameObject optionsMenu;
+    public GameObject continueMenu;
 
     // start to set fullscreen
     private void Awake()
     {
         Screen.SetResolution(1920, 1080, false);
         Cursor.visible = true;
+        if (PlayerPrefs.GetInt("NewGameUnlocked") == 1)
+        {
+            continueMenu.SetActive(true);
+        }
+        else
+        {
+            continueMenu.SetActive(false);
+        }
     }
 
     public void ChoiMoi(string sceneName)
@@ -50,17 +59,17 @@ public class ChucNangMenu : MonoBehaviour
     }
 
 
-    List<int> widths = new List<int>() { 1920 , 1200, 960, 568};
-    List<int> heights = new List<int>() { 1080 , 800, 540, 329};
+    List<int> widths = new List<int>() { 1920, 1200, 960, 568 };
+    List<int> heights = new List<int>() { 1080, 800, 540, 329 };
 
-    public void SetScreenSize (int index)
+    public void SetScreenSize(int index)
     {
         int width = widths[index];
         int height = heights[index];
         Screen.SetResolution(width, height, Screen.fullScreen);
     }
 
-    public void SetFullscreen (bool _fullscreen)
+    public void SetFullscreen(bool _fullscreen)
     {
         Screen.fullScreen = _fullscreen;
     }
