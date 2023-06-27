@@ -15,6 +15,7 @@ public class LevelSystemInterface : MonoBehaviour
     {
         levelSystem = new LevelSystem();
         skillPointText.text = levelSystem.GetSkillPointNumber() + " Point";
+        SetPoint(PlayerPrefs.GetInt("SkillPoint"));
 
         /*playerSkills = new PlayerSkills();
         playerSkills.OnSkillUnlocked += PlayerSkills_OnSkillUnlocked;*/
@@ -46,6 +47,11 @@ public class LevelSystemInterface : MonoBehaviour
     {
         //If lEvel up 
         //Debug.Log("Level UP");
+    }
+
+    public void SetPoint(int point)
+    {
+        levelSystem.SetLevelPoint(point);
     }
 
     public int SkillPoint()

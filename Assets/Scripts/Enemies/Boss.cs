@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static UnityEngine.GraphicsBuffer;
 
 public class Boss : MonoBehaviour
@@ -88,14 +89,11 @@ public class Boss : MonoBehaviour
     private void FixedUpdate()
     {
         //N?u life bé h?n 0 thì ch?t
-        if (life <= 0)
+        if (life <= 5)
         {
             if (!dead)
             {
-                //Thêm kinh nghi?m
-                playerLevel.SetLevelSystem(500);
-                //bool dead s? ???c ch?nh thành true ?? tránh l?p l?i
-                dead = true;
+                SceneManager.LoadScene(4);
             }
 
             StartCoroutine(DestroyEnemy());
@@ -464,6 +462,7 @@ public class Boss : MonoBehaviour
             float n = (life / maxLife) * 100;
             if (n <= 20f)
             {
+                maxLife = 70;
                 anim.SetInteger("Attack", 0);
                 anim.SetTrigger("Revive");
                 life = maxLife;
