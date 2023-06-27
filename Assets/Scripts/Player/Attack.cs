@@ -52,12 +52,7 @@ public class Attack : MonoBehaviour
         //Nhấn V để bắn, có thể tạo thêm code để đếm ngược thời gian có thể bắn
         if (Input.GetKeyDown(KeyCode.V) && canAttack && player.m_Grounded)
         {
-            player.canMove = false;
-            canAttack = false;
-
-            animator.SetTrigger("rangeAttack");
-
-            StartCoroutine(Shoot(0.5f));
+          ShootSkill();
         }
 
 
@@ -70,6 +65,22 @@ public class Attack : MonoBehaviour
             }
 
         }
+    }
+    public void AttackSkill() {
+        //chỉnh bool false để ko đánh nhiều lần được
+        canAttack = false;
+        animator.SetTrigger("Attacking" + combo);
+        AudioManager.instance.PlaySFX("Attack");
+        //đếm ngược thời gian để tiếp tục tấn công
+        StartCoroutine(AttackCooldown(0.1f));
+    }
+    public void ShootSkill() {
+        player.canMove = false;
+        canAttack = false;
+
+        animator.SetTrigger("rangeAttack");
+
+        StartCoroutine(Shoot(0.5f));
     }
 
     public void StartCombo()
@@ -92,12 +103,7 @@ public class Attack : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.X) && canAttack && player.m_Grounded)
         {
-            //chỉnh bool false để ko đánh nhiều lần được
-            canAttack = false;
-            animator.SetTrigger("Attacking" + combo);
-            AudioManager.instance.PlaySFX("Attack");
-            //đếm ngược thời gian để tiếp tục tấn công
-            StartCoroutine(AttackCooldown(0.1f));
+            AttackSkill();
         }
     }
 
