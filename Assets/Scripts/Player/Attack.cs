@@ -52,7 +52,14 @@ public class Attack : MonoBehaviour
         //Nhấn V để bắn, có thể tạo thêm code để đếm ngược thời gian có thể bắn
         if (Input.GetKeyDown(KeyCode.V) && canAttack && player.m_Grounded)
         {
+            player.canMove = false;
+            canAttack = false;
+            animator.SetTrigger("rangeAttack");
+            AudioManager.instance.PlaySFX("RangeAttack");
+            StartCoroutine(Shoot(0.5f));
+
           ShootSkill();
+
         }
 
 

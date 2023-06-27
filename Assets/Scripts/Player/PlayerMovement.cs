@@ -47,7 +47,6 @@ public class PlayerMovement : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.C))
             {
                 dash = true;
-                AudioManager.instance.PlaySFX("Dash");
             }
         }
         else

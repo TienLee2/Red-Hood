@@ -422,6 +422,7 @@ public class CharacterController2D : MonoBehaviour
             healthBar.SetHealth(life);
 
             animator.SetTrigger("Hurt");
+            AudioManager.instance.PlaySFX("PlayerHit");
             animator.ResetTrigger("Attacking1");
             animator.ResetTrigger("Attacking2");
             animator.ResetTrigger("Attacking3");
@@ -449,6 +450,7 @@ public class CharacterController2D : MonoBehaviour
     {
 
         animator.SetTrigger("IsDashing");
+        AudioManager.instance.PlaySFX("Dash");
         isDashing = true;
         canDash = false;
         yield return new WaitForSeconds(0.1f);
@@ -498,6 +500,7 @@ public class CharacterController2D : MonoBehaviour
     IEnumerator WaitToDead()
     {
         animator.SetBool("Dead", true);
+        AudioManager.instance.PlaySFX("PlayerDeath");
         canMove = false;
         invincible = true;
         GetComponent<Attack>().enabled = false;

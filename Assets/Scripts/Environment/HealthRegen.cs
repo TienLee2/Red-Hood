@@ -32,7 +32,7 @@ public class HealthRegen : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             characterController.life += 2;
-            healthBar.SetHealth(2);
+            //healthBar.SetHealth(2);
             Destroy(gameObject);
         }
     }

@@ -21,7 +21,6 @@ public class Mushroom : MonoBehaviour
     private bool dead = false;
     public Transform fireStart;
     private Transform attackCheck;
-
     public bool doOnceDecision;
 
     [SerializeField] private LevelSystemInterface playerLevel;
@@ -124,7 +123,6 @@ public class Mushroom : MonoBehaviour
         {
             
             anim.SetTrigger("Attack");
-            AudioManager.instance.PlaySFX("Attack");
             GameObject throwableProj = Instantiate(throwableObject, transform.position + new Vector3(transform.localScale.x * 0.5f, 0.5f), Quaternion.identity) as GameObject;
             throwableProj.GetComponent<ThrowableProjectile>().owner = gameObject;
             Vector2 direction = new Vector2(transform.localScale.x, 0f);
@@ -180,7 +178,7 @@ public class Mushroom : MonoBehaviour
         capsule.offset = new Vector2(0f, -0.8f);
 
         anim.SetBool("Death", true);
-
+        AudioManager.instance.PlaySFX("MushroomDeath");
         capsule.direction = CapsuleDirection2D.Horizontal;
         yield return new WaitForSeconds(0.25f);
         rb.velocity = new Vector2(0, rb.velocity.y);
