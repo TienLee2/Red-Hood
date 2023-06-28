@@ -12,10 +12,15 @@ public class HealthRegen : MonoBehaviour
     public float height = 0.5f;
     Vector3 pos;
 
+    public GameObject healthIcon;
+    private HealthBar healthBar;
+
     private void Start()
     {
+        healthIcon = GameObject.FindGameObjectWithTag("HealthBar");
         player = GameObject.FindGameObjectWithTag("Player");
         characterController = player.GetComponent<CharacterController2D>();
+        healthBar = healthIcon.GetComponent<HealthBar>();
         pos = transform.position;
     }
 
@@ -31,8 +36,9 @@ public class HealthRegen : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            AudioManager.instance.PlaySFX("Pop");
             characterController.life += 2;
-            //healthBar.SetHealth(2);
+            healthBar.SetHealth(characterController.life);
             Destroy(gameObject);
         }
     }

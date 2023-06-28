@@ -60,6 +60,19 @@ public class PlayerMovement : MonoBehaviour {
 		
 	}
 
+    public void WalkingSFX()
+    {
+        int randomSound = Random.Range(0, 10);
+        if (randomSound % 2 == 0)
+        {
+            AudioManager.instance.PlaySFX("Walk1");
+        }
+        else
+        {
+            AudioManager.instance.PlaySFX("Walk2");
+        }
+    }
+
 	public void OnFall()
 	{
 		animator.SetBool("isFall", true);

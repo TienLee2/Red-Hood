@@ -55,6 +55,7 @@ public class Mushroom : MonoBehaviour
             //bool dead s? ???c trigger ?? ch?y 1 frame 
             if (!dead)
             {
+                AudioManager.instance.PlaySFX("MushroomDeath");
                 //Thêm kinh nghi?m
                 playerLevel.SetLevelSystem(500);
                 //bool dead s? ???c ch?nh thành true ?? tránh l?p l?i
@@ -178,7 +179,7 @@ public class Mushroom : MonoBehaviour
         capsule.offset = new Vector2(0f, -0.8f);
 
         anim.SetBool("Death", true);
-        AudioManager.instance.PlaySFX("MushroomDeath");
+        
         capsule.direction = CapsuleDirection2D.Horizontal;
         yield return new WaitForSeconds(0.25f);
         rb.velocity = new Vector2(0, rb.velocity.y);
