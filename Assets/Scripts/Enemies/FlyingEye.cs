@@ -45,6 +45,7 @@ public class FlyingEye : MonoBehaviour
             //bool dead s? ???c trigger ?? ch?y 1 frame 
             if (!dead)
             {
+                AudioManager.instance.PlaySFX("FlyingEyeDeath");
                 //Thêm kinh nghi?m
                 playerLevel.SetLevelSystem(500);
                 //bool dead s? ???c ch?nh thành true ?? tránh l?p l?i
@@ -127,6 +128,7 @@ public class FlyingEye : MonoBehaviour
     //N?u ch?t thì h?y game object
     IEnumerator DestroyEnemy()
     {
+        
         CapsuleCollider2D capsule = GetComponent<CapsuleCollider2D>();
         capsule.size = new Vector2(1f, 0.25f);
         capsule.offset = new Vector2(0f, -0.8f);

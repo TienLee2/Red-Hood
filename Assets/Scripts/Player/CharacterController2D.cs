@@ -82,7 +82,7 @@ public class CharacterController2D : MonoBehaviour
     public bool[] _skillUnlocked;
     public bool _doubleJumpUnlocked;
     public bool Tutorial;
-
+    private bool Death = false;
     
 
 
@@ -255,6 +255,15 @@ public class CharacterController2D : MonoBehaviour
                     m_Rigidbody2D.velocity = new Vector2(0, m_Rigidbody2D.velocity.y);
                 }
             }
+        }
+        else
+        {
+            if(!Death)
+            {
+                AudioManager.instance.PlaySFX("PlayerDeath");
+                Death = true;
+            }
+            
         }
 
     }
@@ -437,6 +446,7 @@ public class CharacterController2D : MonoBehaviour
             if (life <= 0)
             {
                 StartCoroutine(WaitToDead());
+
             }
             else
             {
@@ -500,7 +510,6 @@ public class CharacterController2D : MonoBehaviour
     IEnumerator WaitToDead()
     {
         animator.SetBool("Dead", true);
-        AudioManager.instance.PlaySFX("PlayerDeath");
         canMove = false;
         invincible = true;
         GetComponent<Attack>().enabled = false;

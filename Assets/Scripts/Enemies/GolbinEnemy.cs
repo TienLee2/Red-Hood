@@ -72,6 +72,7 @@ public class GolbinEnemy : MonoBehaviour
         {
             if (!dead)
             {
+                AudioManager.instance.PlaySFX("GoblinDeath");
                 //Thêm kinh nghi?m
                 playerLevel.SetLevelSystem(500);
                 //bool dead s? ???c ch?nh thành true ?? tránh l?p l?i
@@ -295,7 +296,7 @@ public class GolbinEnemy : MonoBehaviour
         m_Rigidbody2D.velocity = new Vector2(0f, m_Rigidbody2D.velocity.y);
 
         transform.GetComponent<Animator>().SetBool("Dead", true);
-        AudioManager.instance.PlaySFX("GoblinDeath");
+        
         yield return new WaitForSeconds(0.25f);
         m_Rigidbody2D.velocity = new Vector2(0, m_Rigidbody2D.velocity.y);
         yield return new WaitForSeconds(1f);

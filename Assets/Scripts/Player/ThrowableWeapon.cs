@@ -21,6 +21,7 @@ public class ThrowableWeapon : MonoBehaviour
 		if (collision.gameObject.tag == "Enemy")
 		{
 			collision.gameObject.SendMessage("ApplyDamage", Mathf.Sign(direction.x));
+            AudioManager.instance.PlaySFX("Hit");
             Instantiate(Blood, transform.position, Quaternion.identity);
             Destroy(gameObject);
 		}

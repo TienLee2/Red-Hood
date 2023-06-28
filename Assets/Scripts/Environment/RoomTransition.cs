@@ -26,7 +26,7 @@ public class RoomTransition : MonoBehaviour
         {
             virtualCam.SetActive(false);
             backGround.SetActive(false);
-            _AudioSource.Stop();
+            _AudioSource.Pause();
         }
     }
 }
