@@ -5,6 +5,7 @@ using UnityEngine;
 public class SavePlayerPosition : MonoBehaviour
 {
     private GameObject player;
+    public ParticleSystem dust;
 
     private void Start()
     {
@@ -15,6 +16,7 @@ public class SavePlayerPosition : MonoBehaviour
     {
         if (collision.CompareTag("Player")){
             SaveToJson();
+            dust.Play();
         }
     }
 

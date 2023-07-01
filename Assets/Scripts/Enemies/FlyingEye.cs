@@ -3,7 +3,8 @@ using System.Collections;
 
 public class FlyingEye : MonoBehaviour
 {
-
+    public int experienceGet;
+    public float dmgValue;
     public float life = 10;
     private bool isPlat;
     private bool isObstacle;
@@ -47,7 +48,7 @@ public class FlyingEye : MonoBehaviour
             {
                 AudioManager.instance.PlaySFX("FlyingEyeDeath");
                 //Thêm kinh nghi?m
-                playerLevel.SetLevelSystem(500);
+                playerLevel.SetLevelSystem(experienceGet);
                 //bool dead s? ???c ch?nh thành true ?? tránh l?p l?i
                 dead = true;
             }
@@ -110,7 +111,7 @@ public class FlyingEye : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player" && life > 0)
         {
-            collision.gameObject.GetComponent<CharacterController2D>().ApplyDamage(2f, transform.position);
+            collision.gameObject.GetComponent<CharacterController2D>().ApplyDamage(dmgValue, transform.position);
         }
     }
 

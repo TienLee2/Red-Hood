@@ -47,6 +47,9 @@ public class PlayerMovement : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.C))
             {
                 dash = true;
+                animator.ResetTrigger("Attacking1");
+                animator.ResetTrigger("Attacking2");
+                animator.ResetTrigger("Attacking3");
             }
         }
         else

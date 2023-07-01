@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class LevelSystemInterface : MonoBehaviour
 {
+    public ParticleSystem levelUp;
     [SerializeField] private LevelSystem levelSystem;
     private PlayerSkills playerSkills;
 
@@ -46,7 +47,7 @@ public class LevelSystemInterface : MonoBehaviour
     private void LevelSystem_OnLevelChanged(object sender, EventArgs e)
     {
         //If lEvel up 
-        //Debug.Log("Level UP");
+        levelUp.Play();
     }
 
     public void SetPoint(int point)

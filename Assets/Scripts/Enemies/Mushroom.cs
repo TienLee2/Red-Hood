@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Mushroom : MonoBehaviour
 {
+    public int experience;
     public float life = 10;
+    public float attackSpeed;
+    public float dmgValue;
     private bool isPlat;
     private bool isObstacle;
     private Transform fallCheck;
@@ -57,7 +60,7 @@ public class Mushroom : MonoBehaviour
             {
                 AudioManager.instance.PlaySFX("MushroomDeath");
                 //Thêm kinh nghi?m
-                playerLevel.SetLevelSystem(500);
+                playerLevel.SetLevelSystem(experience);
                 //bool dead s? ???c ch?nh thành true ?? tránh l?p l?i
                 dead = true;
             }
@@ -128,7 +131,7 @@ public class Mushroom : MonoBehaviour
             throwableProj.GetComponent<ThrowableProjectile>().owner = gameObject;
             Vector2 direction = new Vector2(transform.localScale.x, 0f);
             throwableProj.GetComponent<ThrowableProjectile>().direction = direction;
-            StartCoroutine(NextDecision(1f));
+            StartCoroutine(NextDecision(attackSpeed));
         }
     }
     private void Animator()
@@ -144,7 +147,7 @@ public class Mushroom : MonoBehaviour
                 {
                     if (collidersEnemies[i].gameObject.tag == "Player")
                     {
-                        collidersEnemies[i].gameObject.GetComponent<CharacterController2D>().ApplyDamage(2f, transform.position);
+                        collidersEnemies[i].gameObject.GetComponent<CharacterController2D>().ApplyDamage(dmgValue, transform.position);
                     }
                 }
             }
