@@ -19,6 +19,9 @@ public class PauseMenu : MonoBehaviour
 
     private void Update()
     {
+        
+       
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (!pauseMenuActive)
@@ -57,6 +60,8 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1;
         pauseMenu.SetActive(false);
         pauseMenuActive = false;
+        inventory.SetActive(false);
+        inventoryActive = false;
     }
 
     public void BackToMenu(string sceneName)

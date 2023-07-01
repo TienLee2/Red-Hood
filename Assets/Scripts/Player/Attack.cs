@@ -70,6 +70,7 @@ public class Attack : MonoBehaviour
         //chỉnh bool false để ko đánh nhiều lần được
         canAttack = false;
         animator.SetTrigger("Attacking" + combo);
+        
         AudioManager.instance.PlaySFX("Attack");
         //đếm ngược thời gian để tiếp tục tấn công
         StartCoroutine(AttackCooldown(0.1f));

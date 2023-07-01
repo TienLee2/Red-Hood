@@ -78,8 +78,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1627258751
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: -1221182949, guid: 0f4afa82cbe0ac24481b546d7d9660c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -258,16 +258,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df20aba0b548dfc44b7a74086f7af4c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 10
+  experience: 10
+  life: 40
+  facingRight: 1
   speed: 5
-  availableToAttack: 0
   isInvincible: 0
-  m_DashForce: 25
   enemy: {fileID: 0}
+  findPlayerDistance: 10
   meleeDist: 1.5
   rangeDist: 5
   dmgValue: 4
-  throwableObject: {fileID: 0}
+  attackSpeed: 3
+  availableToAttack: 0
   playerLevel: {fileID: 0}
 --- !u!1 &22902467634812111
 GameObject:

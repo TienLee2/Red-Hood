@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GolbinEnemy : MonoBehaviour
 {
+    public int experience;
     private Rigidbody2D m_Rigidbody2D;
 
     //Quy?t ??nh cha
@@ -74,7 +75,7 @@ public class GolbinEnemy : MonoBehaviour
             {
                 AudioManager.instance.PlaySFX("GoblinDeath");
                 //Thêm kinh nghi?m
-                playerLevel.SetLevelSystem(500);
+                playerLevel.SetLevelSystem(experience);
                 //bool dead s? ???c ch?nh thành true ?? tránh l?p l?i
                 dead = true;
             }
@@ -184,7 +185,7 @@ public class GolbinEnemy : MonoBehaviour
                 {
                     if (collidersEnemies[i].gameObject.tag == "Player")
                     {
-                        collidersEnemies[i].gameObject.GetComponent<CharacterController2D>().ApplyDamage(2f, transform.position);
+                        collidersEnemies[i].gameObject.GetComponent<CharacterController2D>().ApplyDamage(dmgValue, transform.position);
                     }
                 }
             }

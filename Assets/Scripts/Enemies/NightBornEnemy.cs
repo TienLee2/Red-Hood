@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class NightBornEnemy : MonoBehaviour
 {
+    public int experience =10;
     private Rigidbody2D m_Rigidbody2D;
 
     //Quy?t ??nh cha
@@ -23,11 +24,13 @@ public class NightBornEnemy : MonoBehaviour
     public GameObject enemy;
     private float distToPlayer;
     private float distToPlayerY;
+    public float findPlayerDistance = 10f;
     public float meleeDist = 1.5f;
     public float rangeDist = 5f;
     private bool canAttack = true;
     private Transform attackCheck;
     public float dmgValue = 4;
+    public float attackSpeed = 3;
 
     private float randomDecision = 0;
     private bool doOnceDecision = true;
@@ -53,7 +56,7 @@ public class NightBornEnemy : MonoBehaviour
     public void Update()
     {
         AnimatorController();
-            Collider2D[] collidersEnemies = Physics2D.OverlapCircleAll(attackCheck.position, 5f);
+            Collider2D[] collidersEnemies = Physics2D.OverlapCircleAll(attackCheck.position, findPlayerDistance);
             for (int i = 0; i < collidersEnemies.Length; i++)
             {
                 if (collidersEnemies[i].gameObject.tag == "Player")
@@ -73,7 +76,7 @@ public class NightBornEnemy : MonoBehaviour
             {
                 AudioManager.instance.PlaySFX("NightBornDeath");
                 //Thêm kinh nghi?m
-                playerLevel.SetLevelSystem(500);
+                playerLevel.SetLevelSystem(experience);
                 //bool dead s? ???c ch?nh thành true ?? tránh l?p l?i
                 dead = true;
             }
@@ -108,7 +111,7 @@ public class NightBornEnemy : MonoBehaviour
                 }
                 else if (Mathf.Abs(distToPlayer) > meleeDist && Mathf.Abs(distToPlayer) < rangeDist)
                 {
-                    if (distToPlayerY > 0)
+                    if (distToPlayerY > 0.5)
                     {
                         Jump();
                     }
@@ -175,7 +178,7 @@ public class NightBornEnemy : MonoBehaviour
                 {
                     if (collidersEnemies[i].gameObject.tag == "Player")
                     {
-                        collidersEnemies[i].gameObject.GetComponent<CharacterController2D>().ApplyDamage(2f, transform.position);
+                        collidersEnemies[i].gameObject.GetComponent<CharacterController2D>().ApplyDamage(dmgValue, transform.position);
                     }
                 }
             }
@@ -220,7 +223,7 @@ public class NightBornEnemy : MonoBehaviour
         availableToAttack = true;
         //sau khi t?n công ??i 0.5 giây ?? ti?p t?c t?n công
         randomDecision = 0.8f;
-        StartCoroutine(WaitToAttack(5f));
+        StartCoroutine(WaitToAttack(attackSpeed));
     }
 
     //ch?y
