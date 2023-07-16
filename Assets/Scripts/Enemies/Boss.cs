@@ -220,7 +220,7 @@ public class Boss : MonoBehaviour
 
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Attack1")
         && anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.4
-        && anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.7)
+        && anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.8)
         {
             if (availableToAttack)
             {
@@ -294,6 +294,7 @@ public class Boss : MonoBehaviour
     {
         if (!isInvincible)
         {
+            m_Rigidbody2D.velocity = Vector2.zero;
             damage = Mathf.Abs(damage);
             anim.SetBool("Hit", true);
             life -= damage;
@@ -307,6 +308,7 @@ public class Boss : MonoBehaviour
     {
         isRunning = false;
         isAttacking = true;
+        
 
         if (!state2)
         {
@@ -462,7 +464,7 @@ public class Boss : MonoBehaviour
             float n = (life / maxLife) * 100;
             if (n <= 20f)
             {
-                maxLife = 70;
+                maxLife = 55;
                 anim.SetInteger("Attack", 0);
                 anim.SetTrigger("Revive");
                 life = maxLife;

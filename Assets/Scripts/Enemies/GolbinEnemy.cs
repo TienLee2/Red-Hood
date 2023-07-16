@@ -82,93 +82,96 @@ public class GolbinEnemy : MonoBehaviour
 
             StartCoroutine(DestroyEnemy());
         }
-        //N?u enemy không có
-        if (enemy != null)
+        if (life > 0)
         {
-            //N?u ch?a b? ?ánh
-            if (!isHitted)
+            //N?u enemy không có
+            if (enemy != null)
             {
-                //tìm kho?ng cách gi?a k? ??ch và b?n thân
-                distToPlayer = enemy.transform.position.x - transform.position.x;
-                distToPlayerY = enemy.transform.position.y - transform.position.y;
+                //N?u ch?a b? ?ánh
+                if (!isHitted)
+                {
+                    //tìm kho?ng cách gi?a k? ??ch và b?n thân
+                    distToPlayer = enemy.transform.position.x - transform.position.x;
+                    distToPlayerY = enemy.transform.position.y - transform.position.y;
 
-                //Abs tr? v? s? nguyên d??ng, và n?u kho?ng cách bé h?n 0.25 thì nv s? ??ng yên
-                if (Mathf.Abs(distToPlayer) < 0.25f)
-                {
-                    Idle();
-                }
-                //N?u kho?ng cách l?n h?n 25 và trong t?m melee thì s? t?n công t?m g?n
-                else if (Mathf.Abs(distToPlayer) > 0.25f && Mathf.Abs(distToPlayer) < meleeDist && Mathf.Abs(distToPlayerY) < 2f)
-                {
-                    
-                    if (randomDecision < 0.4f)
-                    {
-                        if ((distToPlayer > 0f && transform.localScale.x < 0f) || (distToPlayer < 0f && transform.localScale.x > 0f))
-                            Flip();
-                    }
-                    else
+                    //Abs tr? v? s? nguyên d??ng, và n?u kho?ng cách bé h?n 0.25 thì nv s? ??ng yên
+                    if (Mathf.Abs(distToPlayer) < 0.25f)
                     {
                         Idle();
                     }
-
-                    if (canAttack)
+                    //N?u kho?ng cách l?n h?n 25 và trong t?m melee thì s? t?n công t?m g?n
+                    else if (Mathf.Abs(distToPlayer) > 0.25f && Mathf.Abs(distToPlayer) < meleeDist && Mathf.Abs(distToPlayerY) < 2f)
                     {
-                        if ((distToPlayer > 0f && transform.localScale.x < 0f) || (distToPlayer < 0f && transform.localScale.x > 0f))
-                            Flip();
-                        Idle();
-                        MeleeAttack();
-                    }
-                }
-                else if (Mathf.Abs(distToPlayer) > meleeDist && Mathf.Abs(distToPlayer) < rangeDist)
-                {
-                    if(randomDecision < 0.4f)
-                    {
-                        Run();
-                        m_Rigidbody2D.velocity = new Vector2(distToPlayer / Mathf.Abs(distToPlayer) * speed, m_Rigidbody2D.velocity.y);
-                    }
-                    else
-                    {
-                        Run();
-                        m_Rigidbody2D.velocity = new Vector2(-distToPlayer / Mathf.Abs(distToPlayer) * speed, m_Rigidbody2D.velocity.y);
-                    }
-                    
-                }
-                else
-                {
-                    //ng?u nhiên quy?t ??nh hành ??ng
-                    if (!endDecision)
-                    {
-                        if ((distToPlayer > 0f && transform.localScale.x < 0f) || (distToPlayer < 0f && transform.localScale.x > 0f))
-                            Flip();
 
                         if (randomDecision < 0.4f)
-                            Run();
+                        {
+                            if ((distToPlayer > 0f && transform.localScale.x < 0f) || (distToPlayer < 0f && transform.localScale.x > 0f))
+                                Flip();
+                        }
                         else
+                        {
                             Idle();
+                        }
+
+                        if (canAttack)
+                        {
+                            if ((distToPlayer > 0f && transform.localScale.x < 0f) || (distToPlayer < 0f && transform.localScale.x > 0f))
+                                Flip();
+                            Idle();
+                            MeleeAttack();
+                        }
+                    }
+                    else if (Mathf.Abs(distToPlayer) > meleeDist && Mathf.Abs(distToPlayer) < rangeDist)
+                    {
+                        if (randomDecision < 0.4f)
+                        {
+                            Run();
+                            m_Rigidbody2D.velocity = new Vector2(distToPlayer / Mathf.Abs(distToPlayer) * speed, m_Rigidbody2D.velocity.y);
+                        }
+                        else
+                        {
+                            Run();
+                            m_Rigidbody2D.velocity = new Vector2(-distToPlayer / Mathf.Abs(distToPlayer) * speed, m_Rigidbody2D.velocity.y);
+                        }
+
                     }
                     else
                     {
-                        endDecision = false;
+                        //ng?u nhiên quy?t ??nh hành ??ng
+                        if (!endDecision)
+                        {
+                            if ((distToPlayer > 0f && transform.localScale.x < 0f) || (distToPlayer < 0f && transform.localScale.x > 0f))
+                                Flip();
+
+                            if (randomDecision < 0.4f)
+                                Run();
+                            else
+                                Idle();
+                        }
+                        else
+                        {
+                            endDecision = false;
+                        }
                     }
                 }
+                //N?u b? ?ánh
+                else if (isHitted)
+                {
+                    m_Rigidbody2D.velocity = new Vector2(-distToPlayer / Mathf.Abs(distToPlayer) * speed * 2f, m_Rigidbody2D.velocity.y);
+                }
             }
-            //N?u b? ?ánh
-            else if (isHitted)
-            {
-                m_Rigidbody2D.velocity = new Vector2(-distToPlayer / Mathf.Abs(distToPlayer) * speed * 2f, m_Rigidbody2D.velocity.y);
-            }
-        }
 
-        if (transform.localScale.x * m_Rigidbody2D.velocity.x > 0 && !m_FacingRight && life > 0)
-        {
-            //xoay nhân v?t
-            Flip();
-        }
-        // Otherwise if the input is moving the player left and the player is facing right...
-        else if (transform.localScale.x * m_Rigidbody2D.velocity.x < 0 && m_FacingRight && life > 0)
-        {
-            // ... flip the player.
-            Flip();
+            if (transform.localScale.x * m_Rigidbody2D.velocity.x > 0 && !m_FacingRight && life > 0)
+            {
+                //xoay nhân v?t
+                Flip();
+            }
+            // Otherwise if the input is moving the player left and the player is facing right...
+            else if (transform.localScale.x * m_Rigidbody2D.velocity.x < 0 && m_FacingRight && life > 0)
+            {
+                // ... flip the player.
+                Flip();
+            }
         }
     }
 
@@ -293,13 +296,14 @@ public class GolbinEnemy : MonoBehaviour
 
     IEnumerator DestroyEnemy()
     {
+        CapsuleCollider2D capsule = GetComponent<CapsuleCollider2D>();
         canAttack = false;
         m_Rigidbody2D.velocity = new Vector2(0f, m_Rigidbody2D.velocity.y);
-
         transform.GetComponent<Animator>().SetBool("Dead", true);
         
         yield return new WaitForSeconds(0.25f);
         m_Rigidbody2D.velocity = new Vector2(0, m_Rigidbody2D.velocity.y);
+        capsule.isTrigger = true;
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);
     }

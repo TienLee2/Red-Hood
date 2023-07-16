@@ -26,12 +26,12 @@ public class LevelSystem
     {
         experience += amount;
 
-        if(experience>= experienceToNextLevel)
+        if(experience >= experienceToNextLevel)
         {
             level++;
             levelPoint++;
-            experienceToNextLevel += 20;
-            experience -= experienceToNextLevel;
+            experienceToNextLevel += 5;
+            experience = 0;
             if (OnLevelChanged != null) OnLevelChanged(this, EventArgs.Empty);
             if (OnLevelPointChanged != null) OnLevelPointChanged(this, EventArgs.Empty);
         }

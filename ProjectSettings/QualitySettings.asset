@@ -4,7 +4,7 @@
 QualitySettings:
   m_ObjectHideFlags: 0
   serializedVersion: 5
-  m_CurrentQuality: 5
+  m_CurrentQuality: 1
   m_QualitySettings:
   - serializedVersion: 2
     name: Very Low
@@ -206,7 +206,7 @@ QualitySettings:
     softVegetation: 1
     realtimeReflectionProbes: 1
     billboardsFaceCameraPosition: 1
-    vSyncCount: 1
+    vSyncCount: 0
     lodBias: 2
     maximumLODLevel: 0
     streamingMipmapsActive: 0
@@ -223,7 +223,7 @@ QualitySettings:
     customRenderPipeline: {fileID: 11400000, guid: fd59d2651f6c23140aef85883d142b16, type: 2}
     excludedTargetPlatforms: []
   m_PerPlatformDefaultQuality:
-    Android: 2
+    Android: 1
     GameCoreScarlett: 5
     GameCoreXboxOne: 5
     Lumin: 5
@@ -233,7 +233,7 @@ QualitySettings:
     Server: 0
     Stadia: 5
     Standalone: 5
-    WebGL: 3
+    WebGL: 0
     Windows Store Apps: 5
     XboxOne: 5
     iPhone: 2

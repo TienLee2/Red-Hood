@@ -25,6 +25,8 @@ public class Attack : MonoBehaviour
     public GameObject cam;
     private CharacterController2D player;
 
+    private bool Upgraded = false;
+
 
     private void Start()
     {
@@ -37,7 +39,12 @@ public class Attack : MonoBehaviour
             //Attack up
             if (player._skillUnlocked[3])
             {
-                dmgValue += 2;
+                if (!Upgraded)
+                {
+                    dmgValue += 2;
+                    Upgraded = true;
+                }
+                
             }
         }
 
@@ -55,16 +62,18 @@ public class Attack : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.P))
+        if (player._skillUnlocked[3])
         {
-            //Attack up
-            if (player._skillUnlocked[3])
+            if (!Upgraded)
             {
                 dmgValue += 2;
+                Upgraded = true;
             }
 
         }
     }
+
+
     public void AttackSkill()
     {
         //chỉnh bool false để ko đánh nhiều lần được
@@ -73,8 +82,56 @@ public class Attack : MonoBehaviour
         
         AudioManager.instance.PlaySFX("Attack");
         //đếm ngược thời gian để tiếp tục tấn công
-        StartCoroutine(AttackCooldown(0.1f));
+
+        if (player._skillUnlocked[4])
+        {
+            if (combo == 1)
+            {
+                StartCoroutine(AttackCooldown(0.1f));
+            }
+            else if(combo == 2)
+            {
+                Debug.Log("Wait");
+                StartCoroutine(AttackCooldown(1.5f));
+            }
+        }
+        else if (player._skillUnlocked[5])
+        {
+            if (combo == 1)
+            {
+                StartCoroutine(AttackCooldown(0.1f));
+            }
+            else if (combo == 2)
+            {
+                StartCoroutine(AttackCooldown(0.1f));
+            }
+            else if (combo == 3)
+            {
+                StartCoroutine(AttackCooldown(1.5f));
+            }
+        }
+        else
+        {
+            StartCoroutine(AttackCooldown(1f));
+        }
     }
+
+    public void MobileAttack()
+    {
+        if (canAttack && player.m_Grounded)
+        {
+            AttackSkill();
+        }
+    }
+
+    public void MobileShoot()
+    {
+        if (canAttack && player.m_Grounded)
+        {
+            ShootSkill();
+        }
+    }
+
     public void ShootSkill()
     {
         player.canMove = false;
@@ -110,6 +167,7 @@ public class Attack : MonoBehaviour
 
     IEnumerator Shoot(float time)
     {
+        combo = 1;
         yield return new WaitForSeconds(time);
         //Tạo object cung tên
         GameObject throwableWeapon = Instantiate(throwableObject, transform.position + new Vector3(transform.localScale.x * 0.5f, 1f), Quaternion.identity) as GameObject;

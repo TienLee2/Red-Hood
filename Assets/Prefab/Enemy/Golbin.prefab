@@ -189,7 +189,7 @@ Rigidbody2D:
   m_Material: {fileID: 6200000, guid: 73035f974857c94489896440d1e2b9e8, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!95 &1258497524185312383
 Animator:
@@ -320,6 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a860415d00e9bf4a81b629d8013320f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  experience: 0
   life: 10
   speed: 5
   isInvincible: 0

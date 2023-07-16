@@ -138,17 +138,17 @@ public class CharacterController2D : MonoBehaviour
             maxLife += 5f;
         }
         //Run faster
-        if (_skillUnlocked[1])
+        if (_skillUnlocked[2])
         {
             _movement.runSpeed += 10f;
         }
         //Attack chain 2
-        if (_skillUnlocked[2])
+        if (_skillUnlocked[4])
         {
             animator.SetInteger("Unlock", 1);
         }
         //Attack chain 3
-        if (_skillUnlocked[3])
+        if (_skillUnlocked[5])
         {
             animator.SetInteger("Unlock", 2);
         }
@@ -156,6 +156,11 @@ public class CharacterController2D : MonoBehaviour
 
     private void Update()
     {
+        if (life > maxLife)
+        {
+            life = maxLife;
+        }
+
         if (!_doubleJumpUnlocked)
         {
             canDoubleJump = false;
@@ -461,11 +466,20 @@ public class CharacterController2D : MonoBehaviour
 
         animator.SetTrigger("IsDashing");
         AudioManager.instance.PlaySFX("Dash");
+        CreateDust();
         isDashing = true;
         canDash = false;
         yield return new WaitForSeconds(0.1f);
         isDashing = false;
-        yield return new WaitForSeconds(2f);
+        if (_skillUnlocked[1])
+        {
+            yield return new WaitForSeconds(1.5f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(2.5f);
+        }
+        
         canDash = true;
     }
 
