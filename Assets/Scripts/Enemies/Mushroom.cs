@@ -127,10 +127,7 @@ public class Mushroom : MonoBehaviour
         {
             
             anim.SetTrigger("Attack");
-            GameObject throwableProj = Instantiate(throwableObject, transform.position + new Vector3(transform.localScale.x * 0.5f, 0.5f), Quaternion.identity) as GameObject;
-            throwableProj.GetComponent<ThrowableProjectile>().owner = gameObject;
-            Vector2 direction = new Vector2(transform.localScale.x, 0f);
-            throwableProj.GetComponent<ThrowableProjectile>().direction = direction;
+            availableToAttack = true;
             StartCoroutine(NextDecision(attackSpeed));
         }
     }
@@ -142,14 +139,11 @@ public class Mushroom : MonoBehaviour
         {
             if (availableToAttack)
             {
-                Collider2D[] collidersEnemies = Physics2D.OverlapCircleAll(attackCheck.position, 0.9f);
-                for (int i = 0; i < collidersEnemies.Length; i++)
-                {
-                    if (collidersEnemies[i].gameObject.tag == "Player")
-                    {
-                        collidersEnemies[i].gameObject.GetComponent<CharacterController2D>().ApplyDamage(dmgValue, transform.position);
-                    }
-                }
+                GameObject throwableProj = Instantiate(throwableObject, transform.position + new Vector3(transform.localScale.x * 0.5f, 0.5f), Quaternion.identity) as GameObject;
+                throwableProj.GetComponent<ThrowableProjectile>().owner = gameObject;
+                Vector2 direction = new Vector2(transform.localScale.x, 0f);
+                throwableProj.GetComponent<ThrowableProjectile>().direction = direction;
+                availableToAttack = false;
             }
         }
     }
@@ -178,15 +172,15 @@ public class Mushroom : MonoBehaviour
     IEnumerator DestroyEnemy()
     {
         CapsuleCollider2D capsule = GetComponent<CapsuleCollider2D>();
-        capsule.size = new Vector2(1f, 0.25f);
-        capsule.offset = new Vector2(0f, -0.8f);
+       /* capsule.size = new Vector2(1f, 0.25f);
+        capsule.offset = new Vector2(0f, -0.8f);*/
 
         anim.SetBool("Death", true);
         
         capsule.direction = CapsuleDirection2D.Horizontal;
         yield return new WaitForSeconds(0.25f);
         rb.velocity = new Vector2(0, rb.velocity.y);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.5f);
         Destroy(gameObject);
     }
 }

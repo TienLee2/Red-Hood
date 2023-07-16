@@ -12,7 +12,26 @@ public class ChucNangMenu : MonoBehaviour
     // start to set fullscreen
     private void Awake()
     {
-        Screen.SetResolution(1920, 1080, false);
+        int previousWidth = PlayerPrefs.GetInt("width");
+        int previousHeight = PlayerPrefs.GetInt("height");
+        int previousFullScreen = PlayerPrefs.GetInt("fullScreen");
+
+        if(previousHeight > 0 && previousFullScreen == 1)
+        {
+            Screen.SetResolution(previousWidth, previousHeight, true);
+        }
+        else if(previousHeight > 0 && previousFullScreen == 0)
+        {
+            Screen.SetResolution(previousWidth, previousHeight, false);
+        }
+        else
+        {
+            Screen.SetResolution(1920, 1080, false);
+        }
+
+        
+
+
         Cursor.visible = true;
         if (PlayerPrefs.GetInt("NewGameUnlocked") == 1)
         {
@@ -67,10 +86,20 @@ public class ChucNangMenu : MonoBehaviour
         int width = widths[index];
         int height = heights[index];
         Screen.SetResolution(width, height, Screen.fullScreen);
+        PlayerPrefs.SetInt("width", width);
+        PlayerPrefs.SetInt("height", height);
     }
 
     public void SetFullscreen(bool _fullscreen)
     {
         Screen.fullScreen = _fullscreen;
+        if (_fullscreen)
+        {
+            PlayerPrefs.SetInt("fullScreen", 1);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("fullScreen", 0);
+        }
     }
 }

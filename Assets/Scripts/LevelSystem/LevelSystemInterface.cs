@@ -23,10 +23,6 @@ public class LevelSystemInterface : MonoBehaviour
 
     }
 
-    /*private void PlayerSkills_OnSkillUnlocked(object sender, PlayerSkills.OnSkillUnlockedEventArgs e)
-    {
-        //Debug.Log("Yes skill Unlocked");
-    }*/
 
     private void Update()
     {
@@ -35,8 +31,9 @@ public class LevelSystemInterface : MonoBehaviour
 
     public void SetLevelSystem(int levelPoint)
     {
-        levelSystem.AddExperience(levelPoint);
         levelSystem.OnLevelChanged += LevelSystem_OnLevelChanged;
+        levelSystem.AddExperience(levelPoint);
+        
     }
 
     public void SubtractSkillPoint(int point)
@@ -48,6 +45,8 @@ public class LevelSystemInterface : MonoBehaviour
     {
         //If lEvel up 
         levelUp.Play();
+        Debug.Log("Level UP");
+
     }
 
     public void SetPoint(int point)
@@ -59,17 +58,4 @@ public class LevelSystemInterface : MonoBehaviour
     {
         return levelSystem.GetSkillPointNumber();
     }
-
-
-
-    /*
-    public void HealthUp()
-    {
-        playerSkills.UnlockedSkill(PlayerSkills.SkillType.HealthUp);
-    }
-
-    public void DashDamage()
-    {
-        playerSkills.UnlockedSkill(PlayerSkills.SkillType.DashDamage);
-    }*/
 }

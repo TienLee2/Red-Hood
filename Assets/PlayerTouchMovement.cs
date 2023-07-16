@@ -28,6 +28,30 @@ public class PlayerTouchMovement : MonoBehaviour
         controller = GetComponent<CharacterController2D>();
     }
 
+    private void Update()
+    {
+        if (controller.life > 0)
+        {
+            if (controller.canMove)
+            {
+                animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+            }
+            else
+            {
+                animator.SetFloat("Speed", 0);
+            }
+
+        }
+        else
+        {
+            animator.SetFloat("Speed", 0f);
+            animator.SetBool("Jumping", false);
+            animator.SetBool("isFall", false);
+            jump = false;
+            dash = false;
+        }
+    }
+
     public void MoveLeft()
     {
         isMovingLeft = true;
@@ -56,8 +80,9 @@ public class PlayerTouchMovement : MonoBehaviour
     public void UseDash()
     {
         dash = true;
-        AudioManager.instance.PlaySFX("Dash");
-        Debug.Log("Use Dash"); // Ví dụ: In ra thông báo "Use Dash"
+        animator.ResetTrigger("Attacking1");
+        animator.ResetTrigger("Attacking2");
+        animator.ResetTrigger("Attacking3");
     }
 
     public void Shoot()
@@ -69,39 +94,30 @@ public class PlayerTouchMovement : MonoBehaviour
 
     public void Jump()
     {
-        jump = true;
-        animator.SetBool("Jumping", true);
-        AudioManager.instance.PlaySFX("Jump");
-        Debug.Log("Jump"); // Ví dụ: In ra thông báo "Jump"
+        if (controller.canMove)
+        {
+            jump = true;
+            animator.SetBool("Jumping", true);
+            AudioManager.instance.PlaySFX("Jump");
+        }
     }
 
-
-
-
-
-    private void Update()
+    public void WalkingSFX()
     {
-        if (controller.life > 0)
+        int randomSound = Random.Range(0, 10);
+        if (randomSound % 2 == 0)
         {
-            if (controller.canMove)
-            {
-                animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
-            }
-            else
-            {
-                animator.SetFloat("Speed", 0);
-            }
-
+            AudioManager.instance.PlaySFX("Walk1");
         }
         else
         {
-            animator.SetFloat("Speed", 0f);
-            animator.SetBool("Jumping", false);
-            animator.SetBool("isFall", false);
-            jump = false;
-            dash = false;
+            AudioManager.instance.PlaySFX("Walk2");
         }
     }
+
+
+
+    
 
     public void OnFall()
     {

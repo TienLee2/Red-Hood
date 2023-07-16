@@ -135,6 +135,7 @@ public class FlyingEye : MonoBehaviour
         capsule.offset = new Vector2(0f, -0.8f);
         capsule.direction = CapsuleDirection2D.Horizontal;
         yield return new WaitForSeconds(0.25f);
+        capsule.isTrigger = true;
         rb.velocity = new Vector2(0, rb.velocity.y);
         yield return new WaitForSeconds(3f);
         Destroy(gameObject);

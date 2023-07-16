@@ -11,17 +11,26 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenu;
     private bool pauseMenuActive = false;
 
+    public bool mobileDevice;
+
     private void Start()
     {
+        mobileDevice = true;
+        if (mobileDevice)
+        {
+            Application.targetFrameRate = 60;
+        }
+        else
+        {
+            Application.targetFrameRate = 144;
+        }
+        
         Time.timeScale = 1;
         inventory.SetActive(false);
     }
 
     private void Update()
     {
-        
-       
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (!pauseMenuActive)
